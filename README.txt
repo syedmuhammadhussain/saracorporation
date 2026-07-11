@@ -37,10 +37,22 @@ HEAVY FILES TO REVIEW BEFORE GOING LIVE (biggest wins when you optimize later):
   Recommended target: max 1200px on the long side, JPG/WebP quality ~80.
 
 PERFORMANCE FEATURES ALREADY BUILT IN
-- One HTML file, no external fonts, no libraries, no CDN calls.
+- One HTML file, no libraries, no CDN scripts.
+- Font: Inter from Google Fonts (display=swap — text renders immediately with the
+  system font, upgrades when Inter arrives; falls back to Segoe UI offline).
 - Hero image preloaded; every other image lazy-loads.
 - Width/height set on images to avoid layout shift.
 - Works without JavaScript (animations and filters simply switch off).
+
+CONTACT FORM (IMPORTANT — ONE-TIME ACTIVATION)
+- The quote form posts to FormSubmit (https://formsubmit.co), a free service for
+  static sites. Submissions arrive at contact@saracorporation.com.
+- FIRST submission triggers an activation email to contact@saracorporation.com —
+  someone must click the confirmation link once. After that, all form submissions
+  are delivered normally.
+- Spam protection: hidden honeypot field + FormSubmit's own captcha page.
+- If you later get a backend or a form provider of your own, just change the
+  form's action= URL in index.html.
 
 THEME
   Navy  #0E2A52 -> structure and trust: nav, headings, dark bands, footer
