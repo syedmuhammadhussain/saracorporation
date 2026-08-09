@@ -8,10 +8,23 @@
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
+  /* Fires once the page is actually visible (preloader gone). Anything that
+     must be *seen* animating — hero counters — waits for this. */
+  var readyFired = false;
+  function siteReady() {
+    if (readyFired) return;
+    readyFired = true;
+    document.dispatchEvent(new CustomEvent('sara:ready'));
+  }
+  function onReady(fn) {
+    if (readyFired) fn();
+    else document.addEventListener('sara:ready', fn, { once: true });
+  }
+
   /* ---------- preloader ---------- */
   (function preloader() {
     var pl = $('#preload');
-    if (!pl) return;
+    if (!pl) { siteReady(); return; }
     var bar = $('.pl-bar i', pl);
     var pct = 0, started = Date.now();
 
@@ -27,6 +40,7 @@
       setTimeout(function () {
         pl.classList.add('done');
         document.body.classList.remove('lock');
+        siteReady();
         setTimeout(function () { pl.remove(); }, 700);
       }, wait);
     }
@@ -37,10 +51,16 @@
   })();
 
   /* ---------- header state + scroll progress ---------- */
-  var hdr = $('#hdr'), toTop = $('#totop'), prog = $('#progress'), ticking = false;
+  var hdr = $('#hdr'), toTop = $('#totop'), prog = $('#progress'), ticking = false, stuck = false;
   function onScroll() {
     var y = window.pageYOffset;
-    if (hdr) hdr.classList.toggle('stuck', y > 40);
+    /* hysteresis: sticks at 70, releases at 20. A single threshold makes the
+       header flip-flop (and re-run the shrink animation) when the user hovers
+       right on the boundary or a trackpad bounces. */
+    if (hdr) {
+      var next = stuck ? y > 20 : y > 70;
+      if (next !== stuck) { stuck = next; hdr.classList.toggle('stuck', stuck); }
+    }
     if (toTop) toTop.classList.toggle('on', y > 640);
     if (prog && !ticking) {
       ticking = true;
@@ -143,26 +163,47 @@
   })();
 
   /* ---------- animated counters ---------- */
-  var counters = $$('[data-count]');
-  if (counters.length && 'IntersectionObserver' in window) {
+  (function counters() {
+    var all = $$('[data-count]');
+    if (!all.length) return;
+
+    var DUR = 1500;
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function run(el) {
+      if (el.dataset.counted) return;
+      el.dataset.counted = '1';
+      var end = parseFloat(el.dataset.count),
+          suf = el.dataset.suffix || '',
+          t0 = performance.now();
+      if (still) { el.textContent = end + suf; return; }
+      (function step(t) {
+        var p = Math.min((t - t0) / DUR, 1),
+            e2 = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(end * e2) + suf;
+        if (p < 1) requestAnimationFrame(step);
+      })(t0);
+    }
+
+    /* Hero strip is above the fold, so an observer would fire behind the
+       preloader and the count would be over before anyone saw it. Zero it
+       now and run it the moment the page is revealed. */
+    var hero = all.filter(function (el) { return el.closest('.hero-strip'); });
+    hero.forEach(function (el) { el.textContent = '0' + (el.dataset.suffix || ''); });
+    if (hero.length) onReady(function () { hero.forEach(run); });
+
+    var rest = all.filter(function (el) { return hero.indexOf(el) === -1; });
+    if (!rest.length) return;
+    if (!('IntersectionObserver' in window)) { rest.forEach(run); return; }
     var cio = new IntersectionObserver(function (en) {
       en.forEach(function (e) {
         if (!e.isIntersecting) return;
         cio.unobserve(e.target);
-        var el = e.target,
-            end = parseFloat(el.dataset.count),
-            suf = el.dataset.suffix || '',
-            dur = 1500, t0 = performance.now();
-        (function step(t) {
-          var p = Math.min((t - t0) / dur, 1),
-              e2 = 1 - Math.pow(1 - p, 3);
-          el.textContent = Math.round(end * e2) + suf;
-          if (p < 1) requestAnimationFrame(step);
-        })(t0);
+        run(e.target);
       });
     }, { threshold: .5 });
-    counters.forEach(function (el) { cio.observe(el); });
-  }
+    rest.forEach(function (el) { cio.observe(el); });
+  })();
 
   /* ---------- hero slideshow ---------- */
   (function heroSlides() {

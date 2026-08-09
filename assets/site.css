@@ -28,14 +28,20 @@
   --r:16px;
   --shadow:0 10px 30px rgba(14,42,82,.09);
   --shadow-lg:0 24px 60px rgba(7,27,54,.18);
-  --nav-h:76px;
+  --nav-h:95px;        /* header height at rest */
+  --nav-h-stuck:74px;  /* header height once scrolled/stuck */
+  --logo:60px;         /* logo image at rest */
+  --logo-stuck:45px;   /* logo image when stuck */
+  --marquee-h:54px;
+  --signal:#28D07A;
   --maxw:1350px;
   --gutter:44px;
   --font:Inter,"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
   --ease:cubic-bezier(.22,.8,.28,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-padding-top:calc(var(--nav-h) + 12px);-webkit-text-size-adjust:100%}
+/* anchors land below the *stuck* header — that's the state during any scroll */
+html{scroll-padding-top:calc(var(--nav-h-stuck) + 12px);-webkit-text-size-adjust:100%}
 html.js{scroll-behavior:smooth}
 body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body.lock{overflow:hidden}
@@ -53,6 +59,8 @@ section{padding:clamp(64px,8vw,116px) 0;position:relative}
 
 /* ---------- type ---------- */
 h1,h2,h3,h4{line-height:1.1;letter-spacing:-.025em;font-weight:800;color:var(--navy)}
+/* Title Case is applied to the markup itself, not with text-transform:
+   capitalize would also uppercase minor words ("A", "To", "Of"). */
 .eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:.76rem;font-weight:800;letter-spacing:.26em;text-transform:uppercase;color:var(--teal-600);margin-bottom:16px}
 .eyebrow::before{content:"";width:40px;height:2px;background:linear-gradient(90deg,var(--teal),var(--orange))}
 .eyebrow.on-dark{color:var(--teal)}
@@ -98,22 +106,29 @@ h2.display .accent{color:var(--teal)}
 /* ============================================================
    HEADER / NAV
    ============================================================ */
-header{position:fixed;top:0;left:0;right:0;z-index:900;height:var(--nav-h);display:flex;align-items:center;
+/* Every size that changes on .stuck shares one duration + easing (--nav-t),
+   so the header, the disc and the logo shrink as a single movement instead
+   of three separate steps. Sizes are driven by custom properties, which
+   animate as plain lengths — no snapping. */
+header{--nav-t:.38s var(--ease);
+  position:fixed;top:0;left:0;right:0;z-index:900;height:var(--nav-h);display:flex;align-items:center;
   background:linear-gradient(180deg,rgba(7,27,54,.78),rgba(7,27,54,.28) 62%,transparent);
-  transition:background .3s,box-shadow .3s,height .3s}
-header.stuck{height:66px;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line),0 8px 30px rgba(14,42,82,.08)}
+  transition:background .3s,box-shadow .3s,height var(--nav-t)}
+header.stuck{height:var(--nav-h-stuck);background:rgba(255,255,255,.96);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line),0 8px 30px rgba(14,42,82,.08)}
 header.solid{background:var(--navy-900)}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:18px}
 .brand{display:flex;align-items:center;gap:12px;flex:none}
-.brand .disc{flex:none;width:46px;height:46px;border-radius:50%;background:#fff;display:grid;place-items:center;
-  box-shadow:0 4px 16px rgba(7,27,54,.34);border:2px solid rgba(22,182,201,.4);transition:width .3s,height .3s}
-.brand .disc img{width:36px;height:36px}
-header.stuck .brand .disc{width:42px;height:42px}
+/* disc tracks the logo size so the white ring never clips or floats */
+.brand .disc{flex:none;width:calc(var(--logo) + 14px);height:calc(var(--logo) + 14px);border-radius:50%;background:#fff;
+  display:grid;place-items:center;box-shadow:0 4px 16px rgba(7,27,54,.34);border:2px solid rgba(22,182,201,.4);
+  transition:width var(--nav-t),height var(--nav-t),box-shadow .3s}
+.brand .disc img{width:var(--logo);height:var(--logo);transition:width var(--nav-t),height var(--nav-t)}
+header.stuck{--logo:var(--logo-stuck)}
 .brand-txt b{display:block;font-size:1.02rem;font-weight:800;letter-spacing:.06em;color:#fff;line-height:1.2;transition:color .3s}
 .brand-txt span{display:block;font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--teal)}
 header.stuck .brand-txt b{color:var(--navy)}
 .menu{display:flex;align-items:center;gap:30px;list-style:none}
-.menu a{position:relative;font-size:.92rem;font-weight:600;color:rgba(255,255,255,.9);padding:6px 0;white-space:nowrap}
+.menu a{position:relative;font-size:1.05rem;font-weight:600;color:rgba(255,255,255,.9);padding:6px 0;white-space:nowrap}
 .menu a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--orange);border-radius:2px;transition:width .28s var(--ease)}
 .menu a:hover::after,.menu a.active::after{width:100%}
 header.stuck .menu a{color:var(--navy)}
@@ -168,46 +183,70 @@ body.nav-open .burger i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
    HERO
    ============================================================ */
 html:not(.js) .hero{min-height:860px!important;height:860px}
-.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;
-  padding-top:calc(var(--nav-h) + 30px);color:#fff;overflow:hidden;background:var(--navy-900)}
+/* hero is one viewport MINUS the marquee, so the marquee band is already
+   visible on first glance instead of sitting below the fold */
+/* padding-bottom:0 kills the generic section padding — otherwise ~116px of
+   hero image sits under the stat strip and pushes the marquee off screen */
+.hero{position:relative;min-height:calc(100svh - var(--marquee-h));display:flex;flex-direction:column;justify-content:flex-end;
+  padding-top:calc(var(--nav-h) + 30px);padding-bottom:0;color:#fff;overflow:hidden;background:var(--navy-900)}
 .hero-media{position:absolute;inset:0}
 .hero-media .shot{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;
-  transition:opacity 1.5s ease;transform:scale(1.06);animation:kb 18s ease-in-out infinite alternate}
-.hero-media .shot.on{opacity:1}
-@keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.12)}}
+  transition:opacity 1.6s var(--ease);transform:scale(1.06);will-change:transform,opacity}
+/* only the visible slide animates, so every slide starts its pan from the top */
+.hero-media .shot.on{opacity:1;animation:kb 8s var(--ease) forwards}
+.hero-media .shot:nth-child(2).on{animation-name:kb2}
+.hero-media .shot:nth-child(3).on{animation-name:kb3}
+@keyframes kb{from{transform:scale(1.04) translate3d(0,0,0)}to{transform:scale(1.16) translate3d(-1.6%,-1.2%,0)}}
+@keyframes kb2{from{transform:scale(1.16) translate3d(1.6%,1%,0)}to{transform:scale(1.04) translate3d(0,0,0)}}
+@keyframes kb3{from{transform:scale(1.05) translate3d(1.8%,-.8%,0)}to{transform:scale(1.15) translate3d(-1.2%,1.2%,0)}}
 .hero-veil{position:absolute;inset:0;
   background:linear-gradient(100deg,rgba(7,27,54,.94) 0%,rgba(14,42,82,.82) 38%,rgba(11,34,68,.44) 68%,rgba(22,182,201,.2) 100%)}
 .hero-veil::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(7,27,54,.9) 0%,transparent 42%)}
-.hero-inner{position:relative;z-index:3;padding-bottom:clamp(30px,5vw,60px);flex:1;display:flex;flex-direction:column;justify-content:center}
-.hero-tag{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;background:rgba(22,182,201,.14);
-  border:1px solid rgba(22,182,201,.5);color:#A6E9F1;font-size:.72rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
-  padding:9px 20px;border-radius:100px;margin-bottom:26px}
-.hero-tag i{width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px rgba(255,99,0,.25)}
-.hero h1{font-size:clamp(2.5rem,7.2vw,5.6rem);font-weight:900;letter-spacing:-.035em;line-height:.98;color:#fff;max-width:16ch;text-wrap:balance}
+/* slow travelling sheen so the still frames never look frozen */
+.hero-veil::before{content:"";position:absolute;inset:-20%;pointer-events:none;
+  background:radial-gradient(38% 46% at 50% 50%,rgba(22,182,201,.18) 0%,transparent 70%);
+  animation:heroSheen 22s ease-in-out infinite alternate}
+@keyframes heroSheen{from{transform:translate3d(-14%,6%,0)}to{transform:translate3d(16%,-8%,0)}}
+.hero-inner{position:relative;z-index:3;padding-bottom:clamp(26px,4vw,48px);flex:1;display:flex;flex-direction:column;justify-content:center}
+.hero h1{font-size:clamp(2.1rem,5.2vw,4rem);font-weight:900;letter-spacing:-.035em;line-height:1.02;color:#fff;max-width:16ch;text-wrap:balance}
 .hero h1 .lite{display:block;font-weight:400;color:rgba(255,255,255,.86);letter-spacing:-.02em}
 .hero h1 .grad{background:linear-gradient(96deg,var(--teal) 10%,#8FE6F1 55%,var(--orange) 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p.sub{margin-top:22px;font-size:clamp(1rem,1.5vw,1.16rem);color:rgba(255,255,255,.8);max-width:56ch}
-.hero-acts{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.hero p.sub{margin-top:20px;font-size:clamp(.92rem,1.1vw,1.02rem);color:rgba(255,255,255,.8);max-width:52ch}
+.hero-acts{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;}
+.hero .hero-acts{position: absolute; bottom: 25px}
 .play-btn{display:inline-flex;align-items:center;gap:14px;color:#fff;font-weight:700;font-size:.95rem}
 .play-btn .circ{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;flex:none;
   background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.45);backdrop-filter:blur(6px);transition:.3s var(--ease)}
 .play-btn .circ svg{width:16px;height:16px;margin-left:3px;fill:#fff}
 .play-btn:hover .circ{background:var(--orange);border-color:var(--orange);transform:scale(1.08)}
-.hero-strip{position:relative;z-index:3;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+/* margin-top:auto pins the strip to the bottom edge of the hero at every
+   viewport height, so it never floats up when the copy block is short */
+.hero-strip{position:relative;z-index:3;margin-top:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;
   background:rgba(255,255,255,.14);border-top:1px solid rgba(255,255,255,.14)}
-.hero-strip div{background:rgba(7,27,54,.6);backdrop-filter:blur(8px);padding:22px 16px;text-align:center}
-.hero-strip b{display:block;font-size:clamp(1.4rem,2.6vw,2.1rem);font-weight:900;color:var(--orange);letter-spacing:-.03em;line-height:1.1}
-.hero-strip span{font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.7)}
-.hero-dots{position:absolute;right:26px;bottom:130px;z-index:4;display:grid;gap:10px}
+.hero-strip div{background:rgba(7,27,54,.6);backdrop-filter:blur(8px);padding:12px 14px;text-align:center;
+  display:grid;grid-template-rows:auto auto;align-content:center;justify-items:center;gap:3px;min-height:82px}
+.hero-strip b{font-size:clamp(1.4rem,2.6vw,2.1rem);font-weight:900;color:var(--orange);letter-spacing:-.03em;line-height:1.1}
+.hero-strip span{font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.7);line-height:1.2}
+.hero-dots{position:absolute;right:26px;bottom:104px;z-index:4;display:grid;gap:10px}
 .hero-dots button{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.36);transition:.25s}
 .hero-dots button.on{background:var(--orange);transform:scale(1.4)}
 
 /* ---------- marquee ---------- */
-.marquee{background:var(--navy);color:#fff;padding:16px 0;overflow:hidden;white-space:nowrap;border-block:1px solid rgba(255,255,255,.08)}
-.marquee-track{display:inline-flex;gap:0;animation:slide 38s linear infinite;will-change:transform}
+/* sits flush under .hero-strip — no top border, so the two bands read as one
+   block at the bottom of the first screen */
+.marquee{background:var(--navy);color:#fff;height:var(--marquee-h);display:flex;align-items:center;
+  overflow:hidden;white-space:nowrap;border-bottom:1px solid rgba(255,255,255,.08)}
+.marquee-track{display:inline-flex;gap:0;animation:slide 30s linear infinite;will-change:transform}
 .marquee span{display:inline-flex;align-items:center;gap:26px;padding-right:26px;font-size:.86rem;font-weight:800;
   letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.82)}
-.marquee span::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--orange)}
+/* signal-green separator dot with a live blink */
+.marquee span::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--signal);
+  box-shadow:0 0 0 0 rgba(40,208,122,.55);animation:signalBlink 1.6s ease-in-out infinite}
+@keyframes signalBlink{
+  0%{opacity:1;box-shadow:0 0 0 0 rgba(40,208,122,.55)}
+  60%{opacity:.35;box-shadow:0 0 0 6px rgba(40,208,122,0)}
+  100%{opacity:1;box-shadow:0 0 0 0 rgba(40,208,122,0)}
+}
 @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .marquee:hover .marquee-track{animation-play-state:paused}
 
@@ -237,7 +276,7 @@ html:not(.js) .hero{min-height:860px!important;height:860px}
 .timeline{margin-top:30px;border-left:2px solid var(--teal-050);display:grid}
 .dark .timeline{border-color:rgba(255,255,255,.16)}
 .tl{position:relative;padding:0 0 22px 28px}
-.tl::before{content:"";position:absolute;left:-9px;top:7px;width:16px;height:16px;border-radius:50%;background:#fff;border:4px solid var(--teal)}
+.tl::before{content:"";position:absolute;left:-13px;top:0px;width:16px;height:16px;border-radius:50%;background:#fff;border:4px solid var(--teal)}
 .tl:last-child{padding-bottom:0}
 .tl:last-child::before{border-color:var(--orange)}
 .tl b{display:block;color:var(--navy);font-weight:800}
@@ -300,7 +339,7 @@ html:not(.js) .hero{min-height:860px!important;height:860px}
 .stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:var(--r);padding:28px 20px;text-align:center;
   transition:background .3s,transform .3s var(--ease)}
 .stat:hover{background:rgba(22,182,201,.14);transform:translateY(-4px)}
-.stat b{display:block;font-size:clamp(1.8rem,3.4vw,2.6rem);font-weight:900;letter-spacing:-.04em;color:var(--teal);line-height:1.05}
+.stat b{display:block;font-size:clamp(1.8rem,3.4vw,2.2rem);font-weight:900;letter-spacing:-.04em;color:var(--teal);line-height:1.05}
 .stat:nth-child(even) b{color:var(--orange)}
 .stat span{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.7)}
 
@@ -333,10 +372,13 @@ html:not(.js) .hero{min-height:860px!important;height:860px}
 
 /* ---------- certifications ---------- */
 .certs{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:14px}
-.cert{background:#fff;border:1px solid var(--line);border-radius:14px;aspect-ratio:4/3;display:grid;place-items:center;padding:14px;
+.cert{background:#fff;border:1px solid var(--line);border-radius:14px;aspect-ratio:6/5;display:grid;place-items:center;padding:12px;
   transition:transform .3s var(--ease),box-shadow .3s;min-width:0}
 .cert:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
-.cert img{max-height:60px;width:auto;object-fit:contain}
+/* Fill the tile in whichever direction runs out first: wide marks are capped
+   by width, tall/square ones by height. A fixed max-height would shrink the
+   square logos (WRAP, GSV, WCA) to a fraction of the wide ones' area. */
+.cert img{max-width:100%;max-height:124px;width:auto;height:auto;object-fit:contain}
 
 /* ---------- markets ---------- */
 .markets-band{background:linear-gradient(120deg,var(--teal-600),var(--teal));color:#fff;text-align:center}
@@ -521,10 +563,9 @@ html.js .hero h1 span{display:inline-block;opacity:0;transform:translateY(38px);
   animation:riseIn .95s var(--ease) forwards}
 html.js .hero h1 .lite{animation-delay:.15s}
 html.js .hero h1 .grad{animation-delay:.32s}
-html.js .hero-tag{opacity:0;animation:riseIn .8s var(--ease) .05s forwards}
 html.js .hero p.sub{opacity:0;animation:riseIn .8s var(--ease) .5s forwards}
 html.js .hero-acts{opacity:0;animation:riseIn .8s var(--ease) .64s forwards}
-html.js .hero-strip{opacity:0;animation:riseIn .8s var(--ease) .8s forwards}
+html.js .hero-strip{opacity:0;animation:riseIn .8s var(--ease) .35s forwards}
 @keyframes riseIn{to{opacity:1;transform:none}}
 
 /* page head entrance + parallax target */
@@ -543,7 +584,7 @@ html.js .page-head p{animation-delay:.34s}
 
 /* float loop for badges */
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-html.js .figure-stack .badge{animation:floaty 4.5s ease-in-out infinite}
+html.js .figure-stack .badge{animation:floaty 1.5s ease-in-out infinite}
 
 /* step rail pop */
 .step .n{transition:transform .3s var(--ease),background .3s}
@@ -566,7 +607,7 @@ html.js .figure-stack .badge{animation:floaty 4.5s ease-in-out infinite}
   .menu .cta{padding:10px 18px}
 }
 @media(max-width:880px){
-  :root{--nav-h:66px}
+  :root{--nav-h:76px;--nav-h-stuck:62px;--logo:48px;--logo-stuck:40px}
   .burger{display:block}
   /* dropdown becomes an accordion inside the slide-down menu */
   .has-drop{width:100%}
@@ -581,7 +622,7 @@ html.js .figure-stack .badge{animation:floaty 4.5s ease-in-out infinite}
   .drop a{color:#fff!important;font-size:.95rem;padding:12px 14px}
   .drop a:hover,.drop a.on{background:rgba(22,182,201,.18)}
   @keyframes dropIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-  .menu{position:fixed;inset:0 0 auto 0;flex-direction:column;align-items:flex-start;gap:22px;padding:96px 26px 40px;
+  .menu{position:fixed;inset:0 0 auto 0;flex-direction:column;align-items:flex-start;gap:22px;padding:calc(var(--nav-h) + 22px) 26px 40px;
     background:var(--navy-900);transform:translateY(-102%);transition:transform .4s var(--ease);box-shadow:0 24px 50px rgba(0,0,0,.4)}
   .menu.open{transform:none}
   .menu a{color:#fff!important;font-size:1.08rem}
@@ -599,7 +640,10 @@ html.js .figure-stack .badge{animation:floaty 4.5s ease-in-out infinite}
   .rail{grid-template-columns:repeat(2,minmax(0,1fr))}
   .certs{grid-template-columns:repeat(3,minmax(0,1fr))}
   .pgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  :root{--marquee-h:46px}
   .hero-strip{grid-template-columns:repeat(2,1fr)}
+  .hero-strip div{min-height:70px}
+  .marquee span{font-size:.76rem;gap:18px;padding-right:18px}
   .frow{grid-template-columns:1fr}
   .f-grid{grid-template-columns:1fr}
   .esg-card{min-height:260px}
@@ -619,7 +663,7 @@ html.js .figure-stack .badge{animation:floaty 4.5s ease-in-out infinite}
    gets a fuller page instead of a narrow column with huge margins.
    ============================================================ */
 @media(min-width:1500px){
-  :root{--maxw:1360px;--gutter:64px;--nav-h:82px}
+  :root{--maxw:1360px;--gutter:64px;--nav-h:100px;--nav-h-stuck:78px}
 }
 @media(min-width:1700px){
   :root{--maxw:1520px;--gutter:72px}
@@ -629,7 +673,7 @@ html.js .figure-stack .badge{animation:floaty 4.5s ease-in-out infinite}
 @media(min-width:1900px){
   html{font-size:17px}
   :root{--maxw:1660px;--gutter:80px}
-  .hero h1{font-size:clamp(3rem,6.4vw,6.4rem)}
+  .hero h1{font-size:clamp(2.6rem,4.6vw,4.4rem)}
   .menu{gap:36px}
 }
 @media(min-width:2200px){
@@ -641,7 +685,13 @@ html.js .figure-stack .badge{animation:floaty 4.5s ease-in-out infinite}
 }
 @media(min-width:2600px){
   :root{--maxw:2040px}
-  .hero h1{font-size:6.8rem}
+  .hero h1{font-size:4.8rem}
+}
+/* short / laptop viewports: keep the stat strip compact and hard against
+   the bottom edge instead of letting it creep up over the artwork */
+@media(max-height:820px){
+  .hero-strip div{padding:9px 12px;min-height:74px}
+  .hero-dots{bottom:96px}
 }
 
 @media(prefers-reduced-motion:reduce){
