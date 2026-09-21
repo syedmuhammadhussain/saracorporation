@@ -213,7 +213,9 @@ html:not(.js) .hero{min-height:860px!important;height:860px}
 .hero h1 .grad{background:linear-gradient(96deg,var(--teal) 10%,#8FE6F1 55%,var(--orange) 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p.sub{margin-top:20px;font-size:clamp(.92rem,1.1vw,1.02rem);color:rgba(255,255,255,.8);max-width:52ch}
 .hero-acts{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;}
-.hero .hero-acts{position: absolute; bottom: 25px}
+/* desktop only: buttons pinned to the foot of the copy block. Below 881px
+   they must stay in normal flow or they land on top of the paragraph */
+@media(min-width:881px){.hero .hero-acts{position:absolute;bottom:25px}}
 .play-btn{display:inline-flex;align-items:center;gap:14px;color:#fff;font-weight:700;font-size:.95rem}
 .play-btn .circ{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;flex:none;
   background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.45);backdrop-filter:blur(6px);transition:.3s var(--ease)}
@@ -326,6 +328,8 @@ html:not(.js) .hero{min-height:860px!important;height:860px}
 
 /* ---------- process rail ---------- */
 .rail{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+/* five-step value chain (Why Sara) */
+.rail.rail-5{grid-template-columns:repeat(5,minmax(0,1fr))}
 .step{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:3/3.7;box-shadow:var(--shadow);background:var(--navy)}
 .step img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
 .step:hover img{transform:scale(1.07)}
@@ -597,7 +601,13 @@ html.js .figure-stack .badge{animation:floaty 1.5s ease-in-out infinite}
   .g4,.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
   .g3,.esg{grid-template-columns:repeat(2,minmax(0,1fr))}
   .rail{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .certs{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .rail.rail-5{grid-template-columns:repeat(3,minmax(0,1fr))}
+  /* tablet/phone: flex so the last short row centres instead of leaving an
+     orphan on the left; logo is boxed inside the tile so every card keeps the
+     same size whatever the logo's shape */
+  .certs{display:flex;flex-wrap:wrap;justify-content:center;--per:4}
+  .cert{flex:0 0 calc((100% - (var(--per) - 1) * 14px) / var(--per));position:relative;aspect-ratio:1}
+  .cert img{position:absolute;inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);max-height:none;object-fit:contain}
   .pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .f-grid{grid-template-columns:1fr 1fr}
 }
@@ -633,16 +643,29 @@ html.js .figure-stack .badge{animation:floaty 1.5s ease-in-out infinite}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .hero-dots{display:none}
   .hero h1{max-width:none}
+  .hero-inner{justify-content:flex-end;padding-top:12px}
 }
 @media(max-width:620px){
   :root{--gutter:32px}
   .g2,.g3,.g4,.esg,.tiles{grid-template-columns:1fr}
   .rail{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .certs{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .rail.rail-5{grid-template-columns:1fr;gap:12px}
+  .timeline{margin:0 2rem}
+  .rail-5 .card{padding:22px 22px 22px 26px}
+  .rail-5 .card h3{padding-right:44px}
+  .certs{--per:3;gap:10px}
+  .cert{flex-basis:calc((100% - 20px) / 3);border-radius:12px}
+  .cert img{inset:10px;width:calc(100% - 20px);height:calc(100% - 20px)}
   .pgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
   :root{--marquee-h:46px}
   .hero-strip{grid-template-columns:repeat(2,1fr)}
   .hero-strip div{min-height:70px}
+  .hero{padding-top:calc(var(--nav-h) + 16px)}
+  .hero p.sub{margin-top:16px}
+  .hero .hero-acts{gap:12px;margin-top:24px}
+  .hero .hero-acts .btn{flex:1 1 0;min-width:0;padding:14px 16px;font-size:.9rem}
+  .hero .hero-acts .play-btn{flex-basis:100%}
+  .play-btn .circ{width:46px;height:46px}
   .marquee span{font-size:.76rem;gap:18px;padding-right:18px}
   .frow{grid-template-columns:1fr}
   .f-grid{grid-template-columns:1fr}
@@ -653,6 +676,10 @@ html.js .figure-stack .badge{animation:floaty 1.5s ease-in-out infinite}
   .lb-hint{display:none}
   .figure-stack .small{display:none}
   .pcard .zoom{opacity:1;transform:none}
+}
+/* very small phones: two pill buttons side by side get cramped, so stack them */
+@media(max-width:374px){
+  .hero .hero-acts .btn{flex-basis:100%}
 }
 @media(max-height:560px),(max-width:560px){
   .modal-close{top:auto;bottom:-52px;right:50%;transform:translateX(50%)}
