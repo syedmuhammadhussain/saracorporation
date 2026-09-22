@@ -815,26 +815,58 @@ html.js .figure-stack .badge{animation:floaty 1.5s ease-in-out infinite}
 
 /* the drop zone is a <label>, so undo the uppercase field-label styling */
 .field .tp-drop{text-transform:none;letter-spacing:normal;font-size:.95rem;color:#fff;margin-bottom:0}
-.tp-drop{display:flex;align-items:center;gap:13px;width:100%;padding:14px 15px;border-radius:11px;cursor:pointer;
-  border:1.5px dashed rgba(255,255,255,.28);background:rgba(255,255,255,.06);
-  transition:border-color .22s,background .22s,transform .22s}
-.tp-drop:hover{border-color:var(--teal);background:rgba(22,182,201,.1)}
-.tp-drop.drag{border-color:var(--teal);background:rgba(22,182,201,.16);transform:scale(1.01)}
-.tp-drop.has{border-style:solid;border-color:rgba(47,217,139,.7);background:rgba(47,217,139,.1)}
-.tp-drop.bad{border-style:solid;border-color:#FF6B6B;background:rgba(255,107,107,.11)}
-.tp-drop svg{width:20px;height:20px;flex:none;fill:none;stroke:rgba(255,255,255,.72);stroke-width:2;
-  stroke-linecap:round;stroke-linejoin:round;transition:stroke .22s}
-.tp-drop.has svg{stroke:#2FD98B}
-.tp-drop.bad svg{stroke:#FF6B6B}
-.tp-copy{display:grid;gap:2px;min-width:0;text-align:left}
-.tp-copy b{font-size:.88rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tp-copy span{font-size:.75rem;color:rgba(255,255,255,.55)}
-.tp-clear{margin-left:auto;flex:none;width:26px;height:26px;border-radius:50%;display:none;place-items:center;
-  background:rgba(255,255,255,.14);transition:background .2s}
-.tp-clear:hover{background:rgba(255,107,107,.4)}
-.tp-clear svg{width:13px;height:13px;stroke:#fff;stroke-width:2.6}
-.tp-drop.has .tp-clear{display:grid}
-/* clipped, not hidden, so the field stays keyboard reachable */
+.tp-drop{position:relative;display:block;width:100%;border-radius:14px;cursor:pointer;overflow:hidden;
+  border:1.5px dashed rgba(255,255,255,.26);background:rgba(255,255,255,.05);
+  transition:border-color .24s,background .24s,box-shadow .24s,transform .24s}
+.tp-drop:hover{border-color:rgba(22,182,201,.75);background:rgba(22,182,201,.09);box-shadow:0 10px 28px rgba(0,0,0,.22)}
+.tp-drop.drag{border-color:var(--teal);background:rgba(22,182,201,.17);transform:scale(1.012);
+  box-shadow:0 0 0 4px rgba(22,182,201,.18)}
+.tp-drop.has{border-style:solid;border-color:rgba(47,217,139,.6);background:rgba(47,217,139,.09)}
+.tp-drop.bad{border-style:solid;border-color:rgba(255,107,107,.75);background:rgba(255,107,107,.1)}
+
+/* a soft sheen that sweeps across on hover, so the zone feels alive */
+.tp-drop::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(420px 120px at var(--mx,50%) var(--my,50%),rgba(22,182,201,.18),transparent 70%)}
+.tp-drop:hover::before{opacity:1}
+
+/* ---- empty state ---- */
+.tp-empty{display:grid;justify-items:center;gap:5px;padding:26px 20px;text-align:center}
+.tp-drop.has .tp-empty,.tp-drop.bad .tp-empty{display:none}
+.tp-badge{width:52px;height:52px;margin-bottom:6px;border-radius:16px;display:grid;place-items:center;
+  background:linear-gradient(150deg,rgba(22,182,201,.3),rgba(22,182,201,.06));border:1px solid rgba(22,182,201,.38);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14);transition:transform .32s cubic-bezier(.2,1.3,.4,1),box-shadow .32s}
+.tp-drop:hover .tp-badge{transform:translateY(-4px);box-shadow:0 12px 26px rgba(22,182,201,.32)}
+.tp-drop.drag .tp-badge{transform:translateY(-6px) scale(1.06)}
+.tp-badge svg{width:23px;height:23px;fill:none;stroke:var(--teal);stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.tp-drop:hover .tp-badge svg path:last-child{animation:tpbob 1.1s ease-in-out infinite}
+.tp-empty b{font-size:.97rem;font-weight:700;color:#fff}
+.tp-empty em{font-style:normal;font-size:.82rem;color:rgba(255,255,255,.62)}
+.tp-empty em u{color:var(--teal);text-decoration:none;border-bottom:1px dashed rgba(22,182,201,.65);padding-bottom:1px}
+.tp-formats{margin-top:7px;padding:4px 11px;border-radius:100px;background:rgba(255,255,255,.07);
+  font-size:.66rem;font-weight:700;letter-spacing:.07em;color:rgba(255,255,255,.5)}
+
+/* ---- picked state ---- */
+.tp-picked{display:none;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:14px 15px;
+  animation:fslide .34s cubic-bezier(.2,1.2,.3,1)}
+.tp-drop.has .tp-picked,.tp-drop.bad .tp-picked{display:grid}
+.tp-ftype{position:relative;width:44px;height:52px;border-radius:8px;display:grid;place-items:center;
+  font-size:.58rem;font-weight:900;letter-spacing:.06em;
+  background:rgba(47,217,139,.16);border:1px solid rgba(47,217,139,.5);color:#2FD98B}
+.tp-ftype::after{content:"";position:absolute;top:-1px;right:-1px;width:13px;height:13px;border-radius:0 8px 0 6px;
+  background:rgba(47,217,139,.4)}
+.tp-drop.bad .tp-ftype{background:rgba(255,107,107,.16);border-color:rgba(255,107,107,.55);color:#FF6B6B}
+.tp-drop.bad .tp-ftype::after{background:rgba(255,107,107,.42)}
+.tp-fmeta{display:grid;gap:3px;min-width:0}
+.tp-fmeta b{font-size:.9rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tp-fmeta>span{font-size:.76rem;color:rgba(255,255,255,.58);line-height:1.45}
+.tp-drop.bad .tp-fmeta>span{color:#FFB4B4}
+.tp-clear{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.12);transition:background .2s,transform .2s}
+.tp-clear:hover{background:rgba(255,107,107,.45);transform:rotate(90deg)}
+.tp-clear svg{width:13px;height:13px;fill:none;stroke:#fff;stroke-width:2.8;stroke-linecap:round}
+
+@keyframes tpbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+
 .tp-file{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .tp-pane:focus-within .tp-drop{border-color:var(--teal);background:rgba(22,182,201,.12)}
 .tp-note{margin-top:8px;font-size:.74rem;color:rgba(255,255,255,.5);line-height:1.5}
@@ -869,7 +901,7 @@ html.js .figure-stack .badge{animation:floaty 1.5s ease-in-out infinite}
 .tp-info svg{width:15px;height:15px;flex:none;margin-top:2px;fill:none;stroke:var(--teal);stroke-width:2.4;stroke-linecap:round}
 .tp-info b{color:#fff;font-weight:700}
 
-.tp-meter{display:none;align-items:center;gap:10px;margin-top:9px}
+.tp-meter{display:none;align-items:center;gap:9px;margin-top:3px}
 .tp-meter:not([hidden]){display:flex}
 .tp-meter .tp-bar{flex:1;height:5px;border-radius:100px;background:rgba(255,255,255,.14);overflow:hidden}
 .tp-meter .tp-bar i{display:block;height:100%;width:0;border-radius:100px;background:#2FD98B;

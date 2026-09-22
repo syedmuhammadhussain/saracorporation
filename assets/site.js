@@ -617,6 +617,7 @@
         drop = tp && $('.tp-drop', tp),
         tpName = tp && $('[data-tp-name]', tp),
         tpHint = tp && $('[data-tp-hint]', tp),
+        tpExt = tp && $('[data-tp-ext]', tp),
         meter = tp && $('[data-tp-meter]', tp),
         meterBar = tp && $('[data-tp-meter] i', tp),
         meterTxt = tp && $('[data-tp-meter-text]', tp),
@@ -650,12 +651,13 @@
 
       if (!f) {
         drop.classList.remove('has', 'bad');
-        tpName.textContent = 'Choose a file or drop it here';
-        tpHint.textContent = 'PDF, image, Excel, Word or ZIP \u00b7 up to 10 MB';
         meter.hidden = true;
         switchBtn.hidden = true;
         return;
       }
+
+      var dot = f.name.lastIndexOf('.');
+      tpExt.textContent = dot > -1 ? f.name.slice(dot + 1).toUpperCase().slice(0, 4) : 'FILE';
 
       /* the meter shows how much of the 10MB allowance the file eats */
       var pct = Math.min(100, Math.round(f.size / MAX_FILE * 100));
@@ -706,6 +708,12 @@
       clearBtn.addEventListener('click', function (e) { e.preventDefault(); clearFile(); });
       clearBtn.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); clearFile(); }
+      });
+
+      drop.addEventListener('pointermove', function (e) {
+        var r = drop.getBoundingClientRect();
+        drop.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        drop.style.setProperty('--my', (e.clientY - r.top) + 'px');
       });
 
       ['dragenter', 'dragover'].forEach(function (ev) {

@@ -151,16 +151,28 @@ html{background:#0E2A52}
                 <span><b>One file, up to 10 MB.</b> PDF, image, Excel, Word or ZIP. Anything heavier will not reach us &mdash; use <b>Share a link</b> for a full tech pack.</span>
               </p>
               <label class="tp-drop" for="f-file">
-                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5-5 5 5"/><path d="M12 5v13"/></svg>
-                <span class="tp-copy"><b data-tp-name>Choose a file or drop it here</b><span data-tp-hint>PDF, image, Excel, Word or ZIP &middot; up to 10 MB</span></span>
-                <span class="tp-clear" role="button" tabindex="0" aria-label="Remove file" data-tp-clear><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+                <span class="tp-empty">
+                  <span class="tp-badge"><svg viewBox="0 0 24 24"><path d="M20 16.5A3.5 3.5 0 0017.5 10h-.8A6 6 0 105 15.6"/><path d="M12 12v8M8.5 15.5L12 12l3.5 3.5"/></svg></span>
+                  <b>Drop your tech pack here</b>
+                  <em>or <u>browse from your device</u></em>
+                  <span class="tp-formats">PDF &middot; ZIP &middot; XLSX &middot; DOCX &middot; JPG &mdash; MAX 10 MB</span>
+                </span>
+
+                <span class="tp-picked">
+                  <span class="tp-ftype" data-tp-ext>FILE</span>
+                  <span class="tp-fmeta">
+                    <b data-tp-name>Choose a file</b>
+                    <span data-tp-hint>PDF, image, Excel, Word or ZIP &middot; up to 10 MB</span>
+                    <span class="tp-meter" data-tp-meter hidden aria-hidden="true">
+                      <span class="tp-bar"><i></i></span>
+                      <span data-tp-meter-text></span>
+                    </span>
+                  </span>
+                  <span class="tp-clear" role="button" tabindex="0" aria-label="Remove file" data-tp-clear><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+                </span>
               </label>
               <input id="f-file" name="attachment" type="file" class="tp-file"
                      accept=".pdf,.png,.jpg,.jpeg,.webp,.xlsx,.xls,.docx,.doc,.zip,.rar,.ai,.psd">
-              <div class="tp-meter" data-tp-meter hidden aria-hidden="true">
-                <span class="tp-bar"><i></i></span>
-                <span data-tp-meter-text></span>
-              </div>
               <button type="button" class="tp-switch" data-tp-switch hidden>Send a link instead &rarr;</button>
               <p class="tp-note">The file is attached to the enquiry email. Sending a file opens a confirmation page.</p>
             </div>
