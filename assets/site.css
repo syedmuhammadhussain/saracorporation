@@ -397,7 +397,9 @@ html:not(.js) .hero{min-height:860px!important;height:860px}
 
 /* ---------- contact ---------- */
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,56px)}
-.cinfo{display:grid;gap:14px;align-content:start}
+.cinfo{display:flex;flex-direction:column;gap:14px}
+/* the photo eats whatever height the form leaves, so the column never ends short */
+.cinfo .cshot{flex:1 1 250px;min-height:200px}
 .crow{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px;
   transition:transform .25s var(--ease),box-shadow .25s}
 .crow:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
@@ -802,6 +804,35 @@ html.js .figure-stack .badge{animation:floaty 1.5s ease-in-out infinite}
 .falert.show{display:flex;animation:fslide .36s cubic-bezier(.2,1.2,.3,1)}
 .falert svg{width:16px;height:16px;flex:none;margin-top:2px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
 .falert a{color:#fff;text-decoration:underline}
+
+/* ---------- contact: the column beside the form carries its own weight ---------- */
+.cnext{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px 4px}
+.cnext h4{font-size:.74rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.cnext-steps{display:grid;gap:2px;list-style:none;counter-reset:none}
+.cnext-steps li{display:flex;gap:14px;padding-bottom:15px;position:relative}
+.cnext-steps li:last-child{padding-bottom:20px}
+/* the rail that threads the three numbers together */
+.cnext-steps li:not(:last-child)::before{content:"";position:absolute;left:14px;top:30px;bottom:2px;width:2px;
+  background:linear-gradient(180deg,var(--teal),rgba(22,182,201,.18))}
+.cnext-steps .n{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  background:var(--teal-050);border:1.5px solid rgba(22,182,201,.45);color:var(--teal-600);
+  font-size:.78rem;font-weight:800;position:relative;z-index:2;transition:.25s}
+.cnext-steps li:hover .n{background:var(--teal);border-color:var(--teal);color:#fff;transform:scale(1.08)}
+.cnext-steps b{display:block;color:var(--navy);font-size:.94rem;margin-bottom:3px}
+.cnext-steps li>span:last-child>span{font-size:.87rem;color:var(--muted);line-height:1.6}
+
+.cshot{position:relative;display:block;border-radius:14px;overflow:hidden;border:1px solid var(--line);
+  box-shadow:var(--shadow)}
+.cshot img{display:block;width:100%;height:100%;min-height:0;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.3,1)}
+.cshot:hover img{transform:scale(1.05)}
+.cshot::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(7,27,54,.88))}
+.cshot-cap{position:absolute;left:0;right:0;bottom:0;z-index:2;display:grid;gap:4px;padding:18px 20px;color:#fff}
+.cshot-cap b{font-size:1rem}
+.cshot-cap span{font-size:.84rem;color:rgba(255,255,255,.75);line-height:1.5}
+.cshot-go{display:inline-flex;align-items:center;gap:7px;margin-top:8px;font-size:.8rem;font-weight:700;
+  color:var(--teal);transition:gap .25s}
+.cshot:hover .cshot-go{gap:12px}
+.cshot-go svg{width:14px;height:14px}
 
 /* ---------- tech pack: link or upload, one at a time ---------- */
 .field .opt{font-weight:600;letter-spacing:.06em;color:rgba(255,255,255,.45);text-transform:none}
