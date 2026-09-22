@@ -26,7 +26,7 @@ html{background:#0E2A52}
 </style>
 <noscript><style>#preload{display:none!important}body.lock{overflow:auto!important}</style></noscript>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-700.woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/site.css?v=2">
 <script>if(!/[?&]flat/.test(location.search))document.documentElement.classList.add('js')</script>
 </head>
 <body class="lock">
@@ -116,26 +116,40 @@ html{background:#0E2A52}
       <div class="cform rv">
         <h3>Request a Quote</h3>
         <p>We reply to every serious enquiry within two working days.</p>
-        <form action="https://formsubmit.co/contact@saracorporation.com" method="POST">
+        <form id="quote-form" data-form action="https://formsubmit.co/contact@saracorporation.com"
+              data-endpoint="https://formsubmit.co/ajax/contact@saracorporation.com" method="POST">
           <input type="hidden" name="_subject" value="Website Quote Request — Sara Corporation">
           <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="true">
+          <input type="hidden" name="_captcha" value="false">
           <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
           <div class="frow">
-            <div class="field"><label for="f-name">Your Name</label><input id="f-name" name="name" type="text" placeholder="Full name" required></div>
-            <div class="field"><label for="f-company">Company</label><input id="f-company" name="company" type="text" placeholder="Company name"></div>
+            <div class="field"><label for="f-name">Your Name <span class="req" aria-hidden="true">*</span></label><input id="f-name" name="name" type="text" placeholder="Full name" autocomplete="name" data-rule="name" required></div>
+            <div class="field"><label for="f-company">Company</label><input id="f-company" name="company" type="text" placeholder="Company name" autocomplete="organization"></div>
           </div>
           <div class="frow">
-            <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" placeholder="you@company.com" required></div>
-            <div class="field"><label for="f-country">Country</label><input id="f-country" name="country" type="text" placeholder="Where you ship to"></div>
+            <div class="field"><label for="f-email">Email <span class="req" aria-hidden="true">*</span></label><input id="f-email" name="email" type="email" placeholder="you@company.com" autocomplete="email" data-rule="email" required></div>
+            <div class="field"><label for="f-country">Country <span class="req" aria-hidden="true">*</span></label><input id="f-country" name="country" type="text" placeholder="Where you ship to" autocomplete="country-name" data-rule="country" required></div>
           </div>
           <div class="frow">
-            <div class="field"><label for="f-product">Product Type</label><input id="f-product" name="product" type="text" placeholder="Polos, hoodies, tees&hellip;"></div>
+            <div class="field"><label for="f-product">Product Type <span class="req" aria-hidden="true">*</span></label><input id="f-product" name="product" type="text" placeholder="Polos, hoodies, tees&hellip;" data-rule="product" required></div>
             <div class="field"><label for="f-qty">Quantity</label><input id="f-qty" name="quantity" type="text" placeholder="Pieces per style"></div>
           </div>
-          <div class="field"><label for="f-msg">Your Requirement</label><textarea id="f-msg" name="message" placeholder="Fabric, target price, delivery window, certifications needed&hellip;" required></textarea></div>
-          <button class="btn btn-primary" type="submit">Send Enquiry <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          <div class="field"><label for="f-msg">Your Requirement <span class="req" aria-hidden="true">*</span></label><textarea id="f-msg" name="message" placeholder="Fabric, target price, delivery window, certifications needed&hellip;" data-rule="message" required></textarea></div>
+          <button class="btn btn-primary" type="submit"><span class="btn-label">Send Enquiry <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span><span class="btn-spin" aria-hidden="true"><i></i></span></button>
+          <p class="fine" style="margin-top:0">Fields marked <span class="req">*</span> are required. We never share your details.</p>
         </form>
+
+        <div class="falert" role="alert" aria-live="assertive">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 7v6M12 16.5v.01"/></svg>
+          <span class="falert-text"></span>
+        </div>
+
+        <div class="fdone" role="status" aria-live="polite">
+          <div class="fdone-mark"><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-10"/></svg></div>
+          <h4>Enquiry on its way</h4>
+          <p>Thank you. Our export team has your details and replies within two working days.</p>
+          <button type="button" data-form-reset>Send another enquiry</button>
+        </div>
         <p class="fine">Prefer email? Write to <a href="mailto:contact@saracorporation.com">contact@saracorporation.com</a><br>Established 1979 &middot; ISO 9001 &amp; 14001 &middot; WRAP &middot; SMETA &middot; GRS &middot; C-TPAT</p>
       </div>
     </div>
@@ -206,6 +220,6 @@ html{background:#0E2A52}
   </div>
 </div>
 
-<script src="assets/site.js" defer></script>
+<script src="assets/site.js?v=2" defer></script>
 </body>
 </html>

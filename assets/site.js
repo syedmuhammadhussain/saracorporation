@@ -302,7 +302,8 @@
         items = [], idx = 0,
         scale = 1, tx = 0, ty = 0,
         MIN = 1, MAX = 5,
-        drag = null, pinch = null, lastFocus = null;
+        drag = null, pinch = null, lastFocus = null,
+        dragMoved = false, lastPanEnd = 0;
 
     function collect() { items = $$('[data-lb]').filter(function (el) { return !el.classList.contains('hide'); }); }
     collect();
@@ -316,9 +317,12 @@
     function resetZoom() { scale = 1; tx = ty = 0; apply(false); }
 
     function clampPan() {
-      var r = img.getBoundingClientRect(),
-          maxX = Math.max(0, (r.width - stage.clientWidth) / 2 + 40),
-          maxY = Math.max(0, (r.height - stage.clientHeight) / 2 + 40);
+      /* measured from the untransformed layout box, so the clamp matches the
+         scale we are about to paint instead of the one still on screen */
+      var w = img.offsetWidth * scale,
+          h = img.offsetHeight * scale,
+          maxX = Math.max(0, (w - stage.clientWidth) / 2),
+          maxY = Math.max(0, (h - stage.clientHeight) / 2);
       tx = Math.max(-maxX, Math.min(maxX, tx));
       ty = Math.max(-maxY, Math.min(maxY, ty));
     }
@@ -358,14 +362,19 @@
       var old = scale;
       scale = Math.max(MIN, Math.min(MAX, scale * factor));
       if (scale === old) return;
+      var k = scale / old;
       if (scale === MIN) { tx = ty = 0; }
-      else if (cx !== undefined) {
-        var r = stage.getBoundingClientRect(),
-            ox = cx - r.left - r.width / 2,
-            oy = cy - r.top - r.height / 2,
-            k = scale / old;
-        tx = ox - (ox - tx) * k;
-        ty = oy - (oy - ty) * k;
+      else {
+        if (cx !== undefined) {
+          var r = stage.getBoundingClientRect(),
+              ox = cx - r.left - r.width / 2,
+              oy = cy - r.top - r.height / 2;
+          tx = ox - (ox - tx) * k;
+          ty = oy - (oy - ty) * k;
+        } else {
+          /* button zoom keeps the same point centred instead of leaving a stale pan */
+          tx *= k; ty *= k;
+        }
         clampPan();
       }
       apply(true);
@@ -381,7 +390,10 @@
 
     /* controls */
     lb.addEventListener('click', function (e) {
-      if (e.target.closest('.lb-close') || e.target === lb || e.target === stage) return close();
+      if (e.target.closest('.lb-close')) return close();
+      /* pointer capture retargets the click to the stage, so a pan must not close the lightbox */
+      if ((e.target === lb || e.target === stage) && Date.now() - lastPanEnd > 300) return close();
+      if (e.target === lb || e.target === stage) return;
       if (e.target.closest('.lb-prev')) return show(idx - 1);
       if (e.target.closest('.lb-next')) return show(idx + 1);
       if (e.target.closest('.lb-in')) return zoomAt(1.4);
@@ -405,17 +417,37 @@
     stage.addEventListener('pointerdown', function (e) {
       if (e.pointerType === 'touch' && pinch) return;
       if (scale <= 1) return;
-      drag = { x: e.clientX - tx, y: e.clientY - ty };
+      e.preventDefault();
+      drag = { x: e.clientX - tx, y: e.clientY - ty, sx: e.clientX, sy: e.clientY };
+      dragMoved = false;
       stage.classList.add('grabbing');
       stage.setPointerCapture(e.pointerId);
     });
     stage.addEventListener('pointermove', function (e) {
       if (!drag) return;
+      if (Math.abs(e.clientX - drag.sx) > 3 || Math.abs(e.clientY - drag.sy) > 3) dragMoved = true;
       tx = e.clientX - drag.x; ty = e.clientY - drag.y;
       clampPan(); apply(true);
     });
     ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) {
-      stage.addEventListener(ev, function () { drag = null; stage.classList.remove('grabbing'); });
+      stage.addEventListener(ev, function (e) {
+        if (!drag) return;
+        drag = null;
+        stage.classList.remove('grabbing');
+        if (dragMoved) { lastPanEnd = Date.now(); dragMoved = false; }
+        if (e.pointerId !== undefined && stage.hasPointerCapture && stage.hasPointerCapture(e.pointerId)) {
+          stage.releasePointerCapture(e.pointerId);
+        }
+      });
+    });
+
+    /* native image drag would tear the picture out of the stage mid pan */
+    img.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+    /* a resize while zoomed must not leave the picture parked off screen */
+    window.addEventListener('resize', function () {
+      if (!lb.classList.contains('open') || scale <= 1) return;
+      clampPan(); apply(true);
     });
 
     /* pinch zoom */
@@ -462,6 +494,205 @@
     });
 
     window.SaraLightbox = { refresh: collect };
+  })();
+
+  /* ============================================================
+     CONTACT FORM — live validation, animated states, async send
+     Without JS the form still posts the classic way to FormSubmit.
+     ============================================================ */
+  (function contactForm() {
+    var form = $('[data-form]');
+    if (!form) return;
+
+    var alertBox = $('.falert'),
+        alertText = $('.falert-text'),
+        done = $('.fdone'),
+        btn = $('button[type=submit]', form),
+        endpoint = form.getAttribute('data-endpoint') || form.action,
+        EMAIL = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/,
+        sending = false;
+
+    var rules = {
+      name: { min: 2, msg: 'Please tell us your name.' },
+      email: {
+        test: function (v) { return EMAIL.test(v); },
+        msg: 'Enter a valid email address, like you@company.com.'
+      },
+      country: { min: 2, msg: 'Let us know which country you ship to.' },
+      product: { min: 2, msg: 'Tell us which product you are asking about.' },
+      message: { min: 15, msg: 'A line about fabric, quantity or delivery helps us quote properly.' }
+    };
+
+    var TICK = '<svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-10"/></svg>',
+        CROSS = '<svg viewBox="0 0 24 24"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>',
+        WARN = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 7v6M12 16.5v.01"/></svg>';
+
+    /* JS owns the messaging now, so the native bubbles stay out of the way */
+    form.setAttribute('novalidate', 'novalidate');
+
+    /* each controlled input gets a wrapper, a status mark and a message slot */
+    var controls = $$('[data-rule]', form).map(function (el) {
+      var field = el.closest('.field'),
+          wrap = document.createElement('span');
+      wrap.className = 'fwrap' + (el.tagName === 'TEXTAREA' ? ' has-area' : '');
+      el.parentNode.insertBefore(wrap, el);
+      wrap.appendChild(el);
+
+      var mark = document.createElement('span');
+      mark.className = 'fmark';
+      mark.setAttribute('aria-hidden', 'true');
+      wrap.appendChild(mark);
+
+      var msg = document.createElement('span');
+      msg.className = 'fmsg';
+      msg.innerHTML = '<span></span>';
+      field.appendChild(msg);
+
+      var id = el.id || el.name;
+      msg.firstChild.id = id + '-msg';
+      el.setAttribute('aria-describedby', id + '-msg');
+
+      return {
+        el: el, field: field, mark: mark, msg: msg.firstChild,
+        rule: rules[el.getAttribute('data-rule')], touched: false
+      };
+    });
+
+    function errorOf(c) {
+      var v = c.el.value.trim(), r = c.rule || {};
+      if (!v) return 'This field is required.';
+      if (r.test && !r.test(v)) return r.msg;
+      if (r.min && v.length < r.min) return r.msg;
+      return '';
+    }
+
+    function paint(c, err, shake) {
+      c.field.classList.toggle('bad', !!err);
+      c.field.classList.toggle('ok', !err);
+      c.el.setAttribute('aria-invalid', err ? 'true' : 'false');
+      c.mark.innerHTML = err ? CROSS : TICK;
+      c.msg.innerHTML = err ? WARN + '<span>' + err + '</span>' : '';
+      if (err && shake) {
+        c.field.classList.remove('shake');
+        void c.field.offsetWidth;          /* restart the shake even on a repeat miss */
+        c.field.classList.add('shake');
+        setTimeout(function () { c.field.classList.remove('shake'); }, 550);
+      }
+    }
+
+    function clear(c) {
+      c.field.classList.remove('bad', 'ok', 'shake');
+      c.mark.innerHTML = '';
+      c.msg.innerHTML = '';
+      c.el.removeAttribute('aria-invalid');
+    }
+
+    function check(c, shake) {
+      var err = errorOf(c);
+      if (!c.touched && !c.el.value.trim()) { clear(c); return err; }
+      paint(c, err, shake);
+      return err;
+    }
+
+    controls.forEach(function (c) {
+      c.el.addEventListener('blur', function () { c.touched = true; check(c, false); });
+      c.el.addEventListener('input', function () {
+        hideAlert();
+        if (c.touched || c.field.classList.contains('bad')) check(c, false);
+      });
+    });
+
+    function showAlert(html) {
+      if (!alertBox) return;
+      alertText.innerHTML = html;
+      alertBox.classList.add('show');
+    }
+    function hideAlert() { if (alertBox) alertBox.classList.remove('show'); }
+
+    function setBtn(state) {
+      btn.classList.remove('sending', 'sent', 'error-shake');
+      if (state) btn.classList.add(state);
+      btn.disabled = state === 'sending';
+    }
+
+    function flashBtn() {
+      btn.classList.add('error-shake');
+      setTimeout(function () { btn.classList.remove('error-shake'); }, 600);
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (sending) return;
+      hideAlert();
+
+      var first = null;
+      controls.forEach(function (c) {
+        c.touched = true;
+        if (check(c, true) && !first) first = c;
+      });
+      if (first) {
+        flashBtn();
+        first.el.focus({ preventScroll: true });
+        first.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      /* honeypot: a filled hidden field means a bot, so show success and send nothing */
+      var honey = form.querySelector('[name=_honey]');
+      if (honey && honey.value) { succeed(); return; }
+
+      sending = true;
+      setBtn('sending');
+
+      var payload = {};
+      new FormData(form).forEach(function (v, k) { if (k !== '_honey') payload[k] = v; });
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (data) {
+            if (!r.ok || String(data.success) === 'false') {
+              throw new Error(data.message || 'request failed with status ' + r.status);
+            }
+            return data;
+          });
+        })
+        .then(function () {
+          sending = false;
+          setBtn('sent');
+          setTimeout(succeed, 560);
+        })
+        .catch(function (err) {
+          sending = false;
+          setBtn(null);
+          flashBtn();
+          showAlert('We could not send that just now (' + (err.message || 'network error') +
+            '). Please try again, or email us directly at ' +
+            '<a href="mailto:ayaz@saracorporation.com">ayaz@saracorporation.com</a>.');
+        });
+    });
+
+    function succeed() {
+      hideAlert();
+      form.style.display = 'none';
+      form.reset();
+      controls.forEach(function (c) { clear(c); c.touched = false; });
+      setBtn(null);
+      if (done) done.classList.add('show');
+    }
+
+    var again = $('[data-form-reset]');
+    if (again) {
+      again.addEventListener('click', function () {
+        if (done) done.classList.remove('show');
+        form.style.display = '';
+        var f = $('[data-rule]', form);
+        if (f) f.focus();
+      });
+    }
   })();
 
   /* ---------- footer year ---------- */

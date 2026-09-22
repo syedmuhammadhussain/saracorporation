@@ -312,7 +312,7 @@ html:not(.js) .hero{min-height:860px!important;height:860px}
 .dark .card .num{color:rgba(255,255,255,.07)}
 
 /* ---------- category tiles (Utopia style) ---------- */
-.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}
 .tile{position:relative;display:block;border-radius:var(--r);overflow:hidden;aspect-ratio:3/4.1;background:var(--navy);
   box-shadow:var(--shadow);transition:transform .35s var(--ease),box-shadow .35s}
 .tile img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
@@ -726,3 +726,97 @@ html.js .figure-stack .badge{animation:floaty 1.5s ease-in-out infinite}
   html{scroll-behavior:auto}
   html.js .rv{opacity:1;transform:none}
 }
+
+/* ============================================================
+   CONTACT FORM — validation states, send animation, success card
+   ============================================================ */
+.field{position:relative}
+.fwrap{position:relative;display:block}
+/* room on the right so the status mark never sits on the typed text */
+.fwrap input,.fwrap textarea{padding-right:42px}
+
+/* per field status mark (tick or cross) drawn on top of the input */
+.fmark{position:absolute;right:13px;top:23px;width:20px;height:20px;opacity:0;transform:scale(.4) rotate(-18deg);
+  pointer-events:none;transition:opacity .2s ease,transform .38s cubic-bezier(.2,1.5,.4,1)}
+.fwrap.has-area .fmark{top:16px;transform-origin:50% 50%}
+.fmark svg{width:20px;height:20px;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.fmark path,.fmark circle{stroke-dasharray:42;stroke-dashoffset:42}
+.field.ok .fmark,.field.bad .fmark{opacity:1;transform:scale(1) rotate(0)}
+.field.ok .fmark svg{stroke:#2FD98B}
+.field.bad .fmark svg{stroke:#FF6B6B}
+.field.ok .fmark path,.field.bad .fmark path{animation:fdraw .42s .06s cubic-bezier(.4,0,.2,1) forwards}
+.field.bad .fmark path:nth-child(2){animation-delay:.16s}
+
+/* input colouring per state */
+.field.ok input,.field.ok textarea{border-color:rgba(47,217,139,.75);background:rgba(47,217,139,.09)}
+.field.bad input,.field.bad textarea{border-color:#FF6B6B;background:rgba(255,107,107,.11)}
+.field.bad input:focus,.field.bad textarea:focus{border-color:#FF6B6B;box-shadow:0 0 0 3px rgba(255,107,107,.26)}
+.field.ok input:focus,.field.ok textarea:focus{border-color:#2FD98B;box-shadow:0 0 0 3px rgba(47,217,139,.24)}
+.field.bad label{color:#FFB4B4}
+.field.shake .fwrap{animation:fshake .5s cubic-bezier(.36,.07,.19,.97)}
+
+/* a ring pulses out of a field the moment it turns valid */
+.field.ok .fwrap::after{content:"";position:absolute;inset:0;border-radius:11px;border:1.5px solid rgba(47,217,139,.85);
+  opacity:0;pointer-events:none;animation:fpulse .6s ease-out}
+
+/* message under the field, height animated so nothing jumps */
+.fmsg{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .3s cubic-bezier(.4,0,.2,1),opacity .24s}
+.fmsg>span{overflow:hidden;display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;color:#FFB4B4;line-height:1.5}
+.field.bad .fmsg{grid-template-rows:1fr;opacity:1}
+.field.bad .fmsg>span{padding-top:6px;animation:fslide .34s cubic-bezier(.2,1.2,.3,1)}
+.fmsg svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round}
+
+/* submit button: label, spinner and tick share one box */
+.cform .btn[type=submit]{position:relative;overflow:hidden}
+.btn-label{display:inline-flex;align-items:center;gap:10px;transition:opacity .22s,transform .3s}
+.btn.sending .btn-label,.btn.sent .btn-label{opacity:0;transform:translateY(-120%)}
+.btn-spin{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .22s}
+.btn.sending .btn-spin{opacity:1}
+.btn-spin i{width:20px;height:20px;border-radius:50%;border:2.4px solid rgba(255,255,255,.34);border-top-color:#fff;
+  animation:fspin .7s linear infinite}
+.btn.sending{background:var(--orange-600);transform:none;cursor:progress}
+.btn.sent{background:#2FD98B;box-shadow:0 12px 30px rgba(47,217,139,.36)}
+.btn.error-shake{animation:fshake .5s cubic-bezier(.36,.07,.19,.97)}
+
+/* progress sweep across the button while the request is in flight */
+.btn.sending::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:100%;background:rgba(255,255,255,.75);
+  transform-origin:left;animation:fsweep 1.6s cubic-bezier(.3,0,.2,1) infinite}
+
+/* success card replaces the form */
+.fdone{display:none;position:relative;z-index:2;text-align:center;padding:18px 6px 6px}
+.fdone.show{display:block;animation:fcard .5s cubic-bezier(.2,1.1,.3,1)}
+.fdone-mark{width:74px;height:74px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(47,217,139,.16);border:1.5px solid rgba(47,217,139,.5);position:relative}
+.fdone-mark::before{content:"";position:absolute;inset:-6px;border-radius:50%;border:1.5px solid rgba(47,217,139,.55);
+  animation:fpulse 2.2s ease-out infinite}
+.fdone-mark svg{width:34px;height:34px;fill:none;stroke:#2FD98B;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.fdone-mark path{stroke-dasharray:48;stroke-dashoffset:48;animation:fdraw .55s .2s cubic-bezier(.4,0,.2,1) forwards}
+.fdone h4{color:#fff;font-size:1.3rem;margin-bottom:8px}
+.fdone p{color:rgba(255,255,255,.76);font-size:.93rem;margin-bottom:18px}
+.fdone button{color:var(--teal);font-weight:700;font-size:.88rem;text-decoration:underline;text-underline-offset:3px}
+
+/* form level failure notice */
+.falert{display:none;gap:10px;align-items:flex-start;margin-top:14px;padding:12px 14px;border-radius:11px;
+  background:rgba(255,107,107,.14);border:1px solid rgba(255,107,107,.45);color:#FFD5D5;font-size:.84rem;line-height:1.55;
+  position:relative;z-index:2}
+.falert.show{display:flex;animation:fslide .36s cubic-bezier(.2,1.2,.3,1)}
+.falert svg{width:16px;height:16px;flex:none;margin-top:2px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
+.falert a{color:#fff;text-decoration:underline}
+
+@keyframes fdraw{to{stroke-dashoffset:0}}
+@keyframes fshake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}
+  30%,50%,70%{transform:translateX(-7px)}40%,60%{transform:translateX(7px)}100%{transform:translateX(0)}}
+@keyframes fpulse{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.14)}}
+@keyframes fslide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fspin{to{transform:rotate(360deg)}}
+@keyframes fsweep{0%{transform:scaleX(0);opacity:.2}50%{transform:scaleX(1);opacity:.85}100%{transform:scaleX(1);opacity:0}}
+@keyframes fcard{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+@media (prefers-reduced-motion:reduce){
+  .fmark,.field.shake .fwrap,.btn.sending::after,.fdone.show,.field.ok .fwrap::after,.fdone-mark::before,
+  .field.bad .fmsg>span,.falert.show{animation:none!important;transition:none!important}
+  .fmark path,.fmark circle,.fdone-mark path{stroke-dashoffset:0!important}
+}
+
+.req{color:var(--orange);font-weight:800}
+.cform .fine .req{color:var(--orange)}
