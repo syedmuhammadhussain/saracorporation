@@ -212,6 +212,17 @@
   (function heroSlides() {
     var shots = $$('.hero-media .shot');
     if (shots.length < 2) return;
+
+    /* frames after the first are pure decoration, so they stay unrequested
+       until the page is painted and interactive */
+    onReady(function () {
+      shots.forEach(function (el) {
+        var bg = el.getAttribute('data-bg');
+        if (!bg) return;
+        el.setAttribute('style', bg);
+        el.removeAttribute('data-bg');
+      });
+    });
     var dots = $$('.hero-dots button'), i = 0, timer;
 
     function go(n) {
