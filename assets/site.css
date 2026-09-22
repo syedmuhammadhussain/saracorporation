@@ -82,6 +82,9 @@ h2.display .accent{color:var(--teal)}
 .btn-navy{background:var(--navy);color:#fff}
 .btn-navy:hover{background:var(--navy-700);transform:translateY(-2px)}
 .btn-ghost{border:1.6px solid var(--line);color:var(--navy)}
+/* on dark art the navy ghost button failed contrast, so it flips to white */
+.hero .btn-ghost,.vbanner .btn-ghost,.page-head .btn-ghost{border-color:rgba(255,255,255,.72);color:#fff}
+.hero .btn-ghost:hover,.vbanner .btn-ghost:hover,.page-head .btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
 .btn-ghost:hover{border-color:var(--teal);color:var(--teal-600)}
 
 /* ============================================================
@@ -193,6 +196,8 @@ html:not(.js) .hero{min-height:860px!important;height:860px}
 .hero-media .shot{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;
   transition:opacity 1.6s var(--ease);transform:scale(1.06);will-change:transform,opacity}
 /* only the visible slide animates, so every slide starts its pan from the top */
+/* the first frame is visible from the start; JS only takes over the rotation */
+.hero-media .shot:first-child{opacity:1}
 .hero-media .shot.on{opacity:1;animation:kb 8s var(--ease) forwards}
 .hero-media .shot:nth-child(2).on{animation-name:kb2}
 .hero-media .shot:nth-child(3).on{animation-name:kb3}
@@ -793,7 +798,7 @@ html.js .figure-stack .badge{animation:floaty 1.5s ease-in-out infinite}
   animation:fpulse 2.2s ease-out infinite}
 .fdone-mark svg{width:34px;height:34px;fill:none;stroke:#2FD98B;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .fdone-mark path{stroke-dasharray:48;stroke-dashoffset:48;animation:fdraw .55s .2s cubic-bezier(.4,0,.2,1) forwards}
-.fdone h4{color:#fff;font-size:1.3rem;margin-bottom:8px}
+.fdone h4,.fdone h2{color:#fff;font-size:1.3rem;margin-bottom:8px}
 .fdone p{color:rgba(255,255,255,.76);font-size:.93rem;margin-bottom:18px}
 .fdone button{color:var(--teal);font-weight:700;font-size:.88rem;text-decoration:underline;text-underline-offset:3px}
 
@@ -807,7 +812,7 @@ html.js .figure-stack .badge{animation:floaty 1.5s ease-in-out infinite}
 
 /* ---------- contact: the column beside the form carries its own weight ---------- */
 .cnext{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px 4px}
-.cnext h4{font-size:.74rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.cnext h4,.cnext .cnext-h{font-size:.74rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
 .cnext-steps{display:grid;gap:2px;list-style:none;counter-reset:none}
 .cnext-steps li{display:flex;gap:14px;padding-bottom:15px;position:relative}
 .cnext-steps li:last-child{padding-bottom:20px}
@@ -909,7 +914,7 @@ html.js .figure-stack .badge{animation:floaty 1.5s ease-in-out infinite}
 .ty-card::after{content:"";position:absolute;right:-90px;top:-90px;width:280px;height:280px;border-radius:50%;
   background:radial-gradient(circle,rgba(255,99,0,.28),transparent 70%)}
 .ty-next{position:relative;z-index:2}
-.ty-next h5{font-size:.74rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+.ty-next h5,.ty-next h3{font-size:.74rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
   color:rgba(255,255,255,.55);margin-bottom:14px}
 .ty-links{display:grid;gap:10px}
 .ty-link{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:12px;

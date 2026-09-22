@@ -1,14 +1,1 @@
-# OS noise
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-.DS_Store
-
-# editors
-.vscode/
-.idea/
-*.swp
-
-# local scratch / test artefacts
-_*.html
-*.log
+node_modules/

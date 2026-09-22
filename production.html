@@ -40,7 +40,8 @@ html{background:#0E2A52}
 </style>
 <noscript><style>#preload{display:none!important}body.lock{overflow:auto!important}</style></noscript>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-700.woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=5">
+<link rel="preload" as="image" href="images/stills/sara-still-02-spreading-tables.webp" type="image/webp" fetchpriority="high">
+<link rel="stylesheet" href="assets/site.min.css?v=6">
 <script>if(!/[?&]flat/.test(location.search))document.documentElement.classList.add('js')</script>
 </head>
 <body class="lock">
@@ -51,7 +52,7 @@ html{background:#0E2A52}
     <div class="pl-mark">
       <span class="ring"></span>
       <span class="disc"></span>
-      <img decoding="async" src="images/sara-logo-96.png" alt="Sara Corporation" width="96" height="96" srcset="images/sara-logo-96.png 96w, images/sara-logo-192.png 192w, images/sara-logo.png 500w" sizes="96px">
+      <picture><source type="image/webp" srcset="images/sara-logo-96.webp 96w, images/sara-logo-192.webp 192w, images/sara-logo.webp 500w" sizes="96px"><img decoding="async" src="images/sara-logo-96.png" alt="Sara Corporation" width="96" height="96" srcset="images/sara-logo-96.png 96w, images/sara-logo-192.png 192w, images/sara-logo.png 500w" sizes="96px"></picture>
     </div>
     <div>
       <div class="pl-name">SARA CORPORATION</div>
@@ -63,8 +64,8 @@ html{background:#0E2A52}
 
 <header id="hdr">
   <div class="wrap nav">
-    <a class="brand" href="index.html" aria-label="Sara Corporation home">
-      <span class="disc"><img decoding="async" src="images/sara-logo-60.png" alt="Sara Corporation logo" width="60" height="60" srcset="images/sara-logo-60.png 60w, images/sara-logo-120.png 120w, images/sara-logo.png 500w" sizes="60px"></span>
+    <a class="brand" href="index.html" aria-label="Sara Corporation Apparel Division, home">
+      <span class="disc"><picture><source type="image/webp" srcset="images/sara-logo-60.webp 60w, images/sara-logo-120.webp 120w, images/sara-logo.webp 500w" sizes="60px"><img decoding="async" src="images/sara-logo-60.png" alt="Sara Corporation logo" width="60" height="60" srcset="images/sara-logo-60.png 60w, images/sara-logo-120.png 120w, images/sara-logo.png 500w" sizes="60px"></picture></span>
       <span class="brand-txt"><b>SARA CORPORATION</b><span>Apparel Division</span></span>
     </a>
     <nav>
@@ -101,7 +102,7 @@ html{background:#0E2A52}
 
 <main>
 <section class="page-head">
-  <div class="bg" style="background-image:url('images/stills/sara-still-02-spreading-tables.jpg')" aria-hidden="true"></div>
+  <div class="bg" style="background-image:url('images/stills/sara-still-02-spreading-tables.jpg');background-image:image-set(url('images/stills/sara-still-02-spreading-tables.webp') type('image/webp'),url('images/stills/sara-still-02-spreading-tables.jpg') type('image/jpeg'))" aria-hidden="true"></div>
   <div class="wrap inner">
     <div class="crumbs"><a href="index.html">Home</a> <span>/</span> <span>Production</span></div>
     <h1>Production</h1>
@@ -118,12 +119,12 @@ html{background:#0E2A52}
     </div>
     <div class="tiles" data-stagger="110">
       <a class="tile" href="woven-apparel.html" style="aspect-ratio:4/3.4">
-        <img decoding="async" src="images/facility/ops-stitching-640.jpg" alt="Woven Apparel" loading="lazy" width="640" height="720" srcset="images/facility/ops-stitching-640.jpg 640w, images/facility/ops-stitching-1280.jpg 1280w, images/facility/ops-stitching.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px">
+        <picture><source type="image/webp" srcset="images/facility/ops-stitching-640.webp 640w, images/facility/ops-stitching-1280.webp 1280w, images/facility/ops-stitching.webp 1920w" sizes="(max-width: 860px) 92vw, 640px"><img decoding="async" src="images/facility/ops-stitching-640.jpg" alt="Woven Apparel" loading="lazy" width="640" height="720" srcset="images/facility/ops-stitching-640.jpg 640w, images/facility/ops-stitching-1280.jpg 1280w, images/facility/ops-stitching.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px"></picture>
         <span class="lbl"><b>01 &nbsp;Woven Apparel</b><span>Ten stitching floors on a modular chain basket system, over a thousand stitching machines, and the flexibility to run twenty styles in twenty fabrics at once.</span><span class="go">Explore unit
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></span>
       </a>
       <a class="tile" href="knitted-apparel.html" style="aspect-ratio:4/3.4">
-        <img decoding="async" src="images/facility/machine-knitting-640.jpg" alt="Knitted Apparel" loading="lazy" width="640" height="720" srcset="images/facility/machine-knitting-640.jpg 640w, images/facility/machine-knitting-1280.jpg 1280w, images/facility/machine-knitting.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px">
+        <picture><source type="image/webp" srcset="images/facility/machine-knitting-640.webp 640w, images/facility/machine-knitting-1280.webp 1280w, images/facility/machine-knitting.webp 1920w" sizes="(max-width: 860px) 92vw, 640px"><img decoding="async" src="images/facility/machine-knitting-640.jpg" alt="Knitted Apparel" loading="lazy" width="640" height="720" srcset="images/facility/machine-knitting-640.jpg 640w, images/facility/machine-knitting-1280.jpg 1280w, images/facility/machine-knitting.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px"></picture>
         <span class="lbl"><b>02 &nbsp;Knitted Apparel</b><span>A complete vertical knitting unit — cone dyeing, engineer stripes from gauge 4 to 28, tubular and open width finishing, all in house.</span><span class="go">Explore unit
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></span>
       </a>
@@ -161,7 +162,7 @@ html{background:#0E2A52}
 </section>
 
 <section class="vbanner" style="padding:0">
-  <div class="bg" style="background-image:url('images/stills/sara-still-16-aerial-facility-2.jpg')" aria-hidden="true"></div>
+  <div class="bg" style="background-image:url('images/stills/sara-still-16-aerial-facility-2.jpg');background-image:image-set(url('images/stills/sara-still-16-aerial-facility-2.webp') type('image/webp'),url('images/stills/sara-still-16-aerial-facility-2.jpg') type('image/jpeg'))" aria-hidden="true"></div>
   <div class="inner">
     <span class="eyebrow on-dark" style="justify-content:center">Ready When You Are</span>
     <h2>Not Sure Which Unit Fits Your Programme?</h2>
@@ -178,17 +179,17 @@ html{background:#0E2A52}
     <div class="f-grid">
       <div>
         <div class="f-brand">
-          <span class="disc"><img decoding="async" src="images/sara-logo-42.png" alt="Sara Corporation logo" width="42" height="42" srcset="images/sara-logo-42.png 42w, images/sara-logo-84.png 84w, images/sara-logo.png 500w" sizes="42px"></span>
+          <span class="disc"><picture><source type="image/webp" srcset="images/sara-logo-42.webp 42w, images/sara-logo-84.webp 84w, images/sara-logo.webp 500w" sizes="42px"><img decoding="async" src="images/sara-logo-42.png" alt="Sara Corporation logo" width="42" height="42" srcset="images/sara-logo-42.png 42w, images/sara-logo-84.png 84w, images/sara-logo.png 500w" sizes="42px"></picture></span>
           <span><b>SARA CORPORATION</b><span>Apparel Division</span></span>
         </div>
         <p>An integrated apparel manufacturing and export company. Knitwear, woven apparel, bottom wear and value added garments &mdash; from yarn to finished garment, under one roof, since 1979.</p>
       </div>
-      <div><h4>Production</h4>
+      <div><h3>Production</h3>
         <ul>
           <li><a href="woven-apparel.html">Woven Apparel</a></li>
           <li><a href="knitted-apparel.html">Knitted Apparel</a></li>
         </ul></div>
-      <div><h4>Company</h4>
+      <div><h3>Company</h3>
         <ul>
           <li><a href="about.html">About Us</a></li>
           <li><a href="why-sara.html#quality">Quality Control</a></li>
@@ -196,7 +197,7 @@ html{background:#0E2A52}
           <li><a href="factory-tour.html">Factory Tour</a></li>
           <li><a href="responsibility.html">Responsibility</a></li>
         </ul></div>
-      <div><h4>Reach Us</h4>
+      <div><h3>Reach Us</h3>
         <ul>
           <li><a href="mailto:contact@saracorporation.com">contact@saracorporation.com</a></li>
           <li><a href="tel:+922136349182">+92 21 3634 9182 / 8384</a></li>
@@ -219,6 +220,6 @@ html{background:#0E2A52}
   </div>
 </div>
 
-<script src="assets/site.js?v=5" defer></script>
+<script src="assets/site.min.js?v=6" defer></script>
 </body>
 </html>

@@ -36,7 +36,7 @@
     function finish() {
       clearInterval(tick);
       if (bar) bar.style.width = '100%';
-      var wait = Math.max(0, 650 - (Date.now() - started));
+      var wait = Math.max(0, 420 - (Date.now() - started));
       setTimeout(function () {
         pl.classList.add('done');
         document.body.classList.remove('lock');
@@ -45,9 +45,12 @@
       }, wait);
     }
 
-    if (document.readyState === 'complete') finish();
-    else window.addEventListener('load', finish);
-    setTimeout(finish, 6000); // hard safety net
+    /* waiting for window load meant waiting for every image on the page, which
+       pushed first paint past five seconds on a phone. The DOM being ready is
+       enough: the hero is preloaded and the rest streams in behind the fold. */
+    if (document.readyState !== 'loading') finish();
+    else document.addEventListener('DOMContentLoaded', finish);
+    setTimeout(finish, 3000); // hard safety net
   })();
 
   /* ---------- header state + scroll progress ---------- */

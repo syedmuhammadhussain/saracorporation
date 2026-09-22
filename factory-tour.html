@@ -40,7 +40,8 @@ html{background:#0E2A52}
 </style>
 <noscript><style>#preload{display:none!important}body.lock{overflow:auto!important}</style></noscript>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-700.woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=5">
+<link rel="preload" as="image" href="images/stills/sara-still-05-cutting-room.webp" type="image/webp" fetchpriority="high">
+<link rel="stylesheet" href="assets/site.min.css?v=6">
 <script>if(!/[?&]flat/.test(location.search))document.documentElement.classList.add('js')</script>
 </head>
 <body class="lock">
@@ -51,7 +52,7 @@ html{background:#0E2A52}
     <div class="pl-mark">
       <span class="ring"></span>
       <span class="disc"></span>
-      <img decoding="async" src="images/sara-logo-96.png" alt="Sara Corporation" width="96" height="96" srcset="images/sara-logo-96.png 96w, images/sara-logo-192.png 192w, images/sara-logo.png 500w" sizes="96px">
+      <picture><source type="image/webp" srcset="images/sara-logo-96.webp 96w, images/sara-logo-192.webp 192w, images/sara-logo.webp 500w" sizes="96px"><img decoding="async" src="images/sara-logo-96.png" alt="Sara Corporation" width="96" height="96" srcset="images/sara-logo-96.png 96w, images/sara-logo-192.png 192w, images/sara-logo.png 500w" sizes="96px"></picture>
     </div>
     <div>
       <div class="pl-name">SARA CORPORATION</div>
@@ -63,8 +64,8 @@ html{background:#0E2A52}
 
 <header id="hdr">
   <div class="wrap nav">
-    <a class="brand" href="index.html" aria-label="Sara Corporation home">
-      <span class="disc"><img decoding="async" src="images/sara-logo-60.png" alt="Sara Corporation logo" width="60" height="60" srcset="images/sara-logo-60.png 60w, images/sara-logo-120.png 120w, images/sara-logo.png 500w" sizes="60px"></span>
+    <a class="brand" href="index.html" aria-label="Sara Corporation Apparel Division, home">
+      <span class="disc"><picture><source type="image/webp" srcset="images/sara-logo-60.webp 60w, images/sara-logo-120.webp 120w, images/sara-logo.webp 500w" sizes="60px"><img decoding="async" src="images/sara-logo-60.png" alt="Sara Corporation logo" width="60" height="60" srcset="images/sara-logo-60.png 60w, images/sara-logo-120.png 120w, images/sara-logo.png 500w" sizes="60px"></picture></span>
       <span class="brand-txt"><b>SARA CORPORATION</b><span>Apparel Division</span></span>
     </a>
     <nav>
@@ -101,7 +102,7 @@ html{background:#0E2A52}
 
 <main>
 <section class="page-head">
-  <div class="bg" style="background-image:url('images/stills/sara-still-05-cutting-room.jpg')" aria-hidden="true"></div>
+  <div class="bg" style="background-image:url('images/stills/sara-still-05-cutting-room.jpg');background-image:image-set(url('images/stills/sara-still-05-cutting-room.webp') type('image/webp'),url('images/stills/sara-still-05-cutting-room.jpg') type('image/jpeg'))" aria-hidden="true"></div>
   <div class="wrap inner">
     <div class="crumbs"><a href="index.html">Home</a> <span>/</span> <a href="facility.html">Facility</a> <span>/</span> <span>Factory Tour</span></div>
     <h1>Factory Tour</h1>
@@ -118,51 +119,51 @@ html{background:#0E2A52}
     </div>
     <div class="grid g3" data-stagger="70">
       <figure class="tile" style="aspect-ratio:4/3;cursor:zoom-in" data-lb="images/stills/sara-still-01-fabric-pattern-cut.jpg" data-lb-title="01 &mdash; Fabric Inspection">
-        <img decoding="async" src="images/stills/sara-still-01-fabric-pattern-cut-640.jpg" alt="Fabric Inspection" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-01-fabric-pattern-cut-640.jpg 640w, images/stills/sara-still-01-fabric-pattern-cut-1280.jpg 1280w, images/stills/sara-still-01-fabric-pattern-cut.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px">
+        <picture><source type="image/webp" srcset="images/stills/sara-still-01-fabric-pattern-cut-640.webp 640w, images/stills/sara-still-01-fabric-pattern-cut-1280.webp 1280w, images/stills/sara-still-01-fabric-pattern-cut.webp 1920w" sizes="(max-width: 860px) 92vw, 640px"><img decoding="async" src="images/stills/sara-still-01-fabric-pattern-cut-640.jpg" alt="Fabric Inspection" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-01-fabric-pattern-cut-640.jpg 640w, images/stills/sara-still-01-fabric-pattern-cut-1280.jpg 1280w, images/stills/sara-still-01-fabric-pattern-cut.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px"></picture>
         <span class="lbl"><b>01 &nbsp;Fabric Inspection</b><span>Every roll is checked on a dedicated inspection machine before it is allowed near the cutting floor.</span></span>
       </figure>
       <figure class="tile" style="aspect-ratio:4/3;cursor:zoom-in" data-lb="images/stills/sara-still-02-spreading-tables.jpg" data-lb-title="02 &mdash; Spreading">
-        <img decoding="async" src="images/stills/sara-still-02-spreading-tables-640.jpg" alt="Spreading" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-02-spreading-tables-640.jpg 640w, images/stills/sara-still-02-spreading-tables-1280.jpg 1280w, images/stills/sara-still-02-spreading-tables.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px">
+        <picture><source type="image/webp" srcset="images/stills/sara-still-02-spreading-tables-640.webp 640w, images/stills/sara-still-02-spreading-tables-1280.webp 1280w, images/stills/sara-still-02-spreading-tables.webp 1920w" sizes="(max-width: 860px) 92vw, 640px"><img decoding="async" src="images/stills/sara-still-02-spreading-tables-640.jpg" alt="Spreading" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-02-spreading-tables-640.jpg 640w, images/stills/sara-still-02-spreading-tables-1280.jpg 1280w, images/stills/sara-still-02-spreading-tables.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px"></picture>
         <span class="lbl"><b>02 &nbsp;Spreading</b><span>Automatic spreaders lay the fabric flat and even, ply after ply, ready for the cutter.</span></span>
       </figure>
       <figure class="tile" style="aspect-ratio:4/3;cursor:zoom-in" data-lb="images/stills/sara-still-03-cutting-floor-wide.jpg" data-lb-title="03 &mdash; Automatic Cutting">
-        <img decoding="async" src="images/stills/sara-still-03-cutting-floor-wide-640.jpg" alt="Automatic Cutting" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-03-cutting-floor-wide-640.jpg 640w, images/stills/sara-still-03-cutting-floor-wide-1280.jpg 1280w, images/stills/sara-still-03-cutting-floor-wide.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px">
+        <picture><source type="image/webp" srcset="images/stills/sara-still-03-cutting-floor-wide-640.webp 640w, images/stills/sara-still-03-cutting-floor-wide-1280.webp 1280w, images/stills/sara-still-03-cutting-floor-wide.webp 1920w" sizes="(max-width: 860px) 92vw, 640px"><img decoding="async" src="images/stills/sara-still-03-cutting-floor-wide-640.jpg" alt="Automatic Cutting" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-03-cutting-floor-wide-640.jpg 640w, images/stills/sara-still-03-cutting-floor-wide-1280.jpg 1280w, images/stills/sara-still-03-cutting-floor-wide.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px"></picture>
         <span class="lbl"><b>03 &nbsp;Automatic Cutting</b><span>Automatic cutting tables follow the digital marker, holding precision at speed with minimal waste.</span></span>
       </figure>
       <figure class="tile" style="aspect-ratio:4/3;cursor:zoom-in" data-lb="images/stills/sara-still-05-cutting-room.jpg" data-lb-title="04 &mdash; Cutting Room">
-        <img decoding="async" src="images/stills/sara-still-05-cutting-room-640.jpg" alt="Cutting Room" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-05-cutting-room-640.jpg 640w, images/stills/sara-still-05-cutting-room-1280.jpg 1280w, images/stills/sara-still-05-cutting-room.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px">
+        <picture><source type="image/webp" srcset="images/stills/sara-still-05-cutting-room-640.webp 640w, images/stills/sara-still-05-cutting-room-1280.webp 1280w, images/stills/sara-still-05-cutting-room.webp 1920w" sizes="(max-width: 860px) 92vw, 640px"><img decoding="async" src="images/stills/sara-still-05-cutting-room-640.jpg" alt="Cutting Room" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-05-cutting-room-640.jpg 640w, images/stills/sara-still-05-cutting-room-1280.jpg 1280w, images/stills/sara-still-05-cutting-room.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px"></picture>
         <span class="lbl"><b>04 &nbsp;Cutting Room</b><span>The cutting room runs to plan, with panels bundled and issued to the right line at the right time.</span></span>
       </figure>
       <figure class="tile" style="aspect-ratio:4/3;cursor:zoom-in" data-lb="images/stills/sara-still-07-stitching-operator.jpg" data-lb-title="05 &mdash; Stitching Lines">
-        <img decoding="async" src="images/stills/sara-still-07-stitching-operator-640.jpg" alt="Stitching Lines" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-07-stitching-operator-640.jpg 640w, images/stills/sara-still-07-stitching-operator-1280.jpg 1280w, images/stills/sara-still-07-stitching-operator.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px">
+        <picture><source type="image/webp" srcset="images/stills/sara-still-07-stitching-operator-640.webp 640w, images/stills/sara-still-07-stitching-operator-1280.webp 1280w, images/stills/sara-still-07-stitching-operator.webp 1920w" sizes="(max-width: 860px) 92vw, 640px"><img decoding="async" src="images/stills/sara-still-07-stitching-operator-640.jpg" alt="Stitching Lines" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-07-stitching-operator-640.jpg 640w, images/stills/sara-still-07-stitching-operator-1280.jpg 1280w, images/stills/sara-still-07-stitching-operator.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px"></picture>
         <span class="lbl"><b>05 &nbsp;Stitching Lines</b><span>A modular chain basket system keeps work in progress visible and the line balanced.</span></span>
       </figure>
       <figure class="tile" style="aspect-ratio:4/3;cursor:zoom-in" data-lb="images/stills/sara-still-08-stitching-line-worker.jpg" data-lb-title="06 &mdash; Line Detail">
-        <img decoding="async" src="images/stills/sara-still-08-stitching-line-worker-640.jpg" alt="Line Detail" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-08-stitching-line-worker-640.jpg 640w, images/stills/sara-still-08-stitching-line-worker-1280.jpg 1280w, images/stills/sara-still-08-stitching-line-worker.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px">
+        <picture><source type="image/webp" srcset="images/stills/sara-still-08-stitching-line-worker-640.webp 640w, images/stills/sara-still-08-stitching-line-worker-1280.webp 1280w, images/stills/sara-still-08-stitching-line-worker.webp 1920w" sizes="(max-width: 860px) 92vw, 640px"><img decoding="async" src="images/stills/sara-still-08-stitching-line-worker-640.jpg" alt="Line Detail" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-08-stitching-line-worker-640.jpg 640w, images/stills/sara-still-08-stitching-line-worker-1280.jpg 1280w, images/stills/sara-still-08-stitching-line-worker.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px"></picture>
         <span class="lbl"><b>06 &nbsp;Line Detail</b><span>Skilled operators, each with a defined operation, checked at the source rather than at the end.</span></span>
       </figure>
       <figure class="tile" style="aspect-ratio:4/3;cursor:zoom-in" data-lb="images/stills/sara-still-18-finishing-crew.jpg" data-lb-title="07 &mdash; Finishing">
-        <img decoding="async" src="images/stills/sara-still-18-finishing-crew-640.jpg" alt="Finishing" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-18-finishing-crew-640.jpg 640w, images/stills/sara-still-18-finishing-crew-1280.jpg 1280w, images/stills/sara-still-18-finishing-crew.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px">
+        <picture><source type="image/webp" srcset="images/stills/sara-still-18-finishing-crew-640.webp 640w, images/stills/sara-still-18-finishing-crew-1280.webp 1280w, images/stills/sara-still-18-finishing-crew.webp 1920w" sizes="(max-width: 860px) 92vw, 640px"><img decoding="async" src="images/stills/sara-still-18-finishing-crew-640.jpg" alt="Finishing" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-18-finishing-crew-640.jpg 640w, images/stills/sara-still-18-finishing-crew-1280.jpg 1280w, images/stills/sara-still-18-finishing-crew.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px"></picture>
         <span class="lbl"><b>07 &nbsp;Finishing</b><span>Trimming, thread sucking and detailing, handled by a crew who see the garment as a whole.</span></span>
       </figure>
       <figure class="tile" style="aspect-ratio:4/3;cursor:zoom-in" data-lb="images/stills/sara-still-11-folding-quality.jpg" data-lb-title="08 &mdash; Steam Pressing">
-        <img decoding="async" src="images/stills/sara-still-11-folding-quality-640.jpg" alt="Steam Pressing" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-11-folding-quality-640.jpg 640w, images/stills/sara-still-11-folding-quality-1280.jpg 1280w, images/stills/sara-still-11-folding-quality.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px">
+        <picture><source type="image/webp" srcset="images/stills/sara-still-11-folding-quality-640.webp 640w, images/stills/sara-still-11-folding-quality-1280.webp 1280w, images/stills/sara-still-11-folding-quality.webp 1920w" sizes="(max-width: 860px) 92vw, 640px"><img decoding="async" src="images/stills/sara-still-11-folding-quality-640.jpg" alt="Steam Pressing" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-11-folding-quality-640.jpg 640w, images/stills/sara-still-11-folding-quality-1280.jpg 1280w, images/stills/sara-still-11-folding-quality.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px"></picture>
         <span class="lbl"><b>08 &nbsp;Steam Pressing</b><span>Steam press stations set the finished shape before the garment goes for final check.</span></span>
       </figure>
       <figure class="tile" style="aspect-ratio:4/3;cursor:zoom-in" data-lb="images/stills/sara-still-10-inspection-stacks.jpg" data-lb-title="09 &mdash; Final Check">
-        <img decoding="async" src="images/stills/sara-still-10-inspection-stacks-640.jpg" alt="Final Check" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-10-inspection-stacks-640.jpg 640w, images/stills/sara-still-10-inspection-stacks-1280.jpg 1280w, images/stills/sara-still-10-inspection-stacks.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px">
+        <picture><source type="image/webp" srcset="images/stills/sara-still-10-inspection-stacks-640.webp 640w, images/stills/sara-still-10-inspection-stacks-1280.webp 1280w, images/stills/sara-still-10-inspection-stacks.webp 1920w" sizes="(max-width: 860px) 92vw, 640px"><img decoding="async" src="images/stills/sara-still-10-inspection-stacks-640.jpg" alt="Final Check" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-10-inspection-stacks-640.jpg 640w, images/stills/sara-still-10-inspection-stacks-1280.jpg 1280w, images/stills/sara-still-10-inspection-stacks.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px"></picture>
         <span class="lbl"><b>09 &nbsp;Final Check</b><span>The final audit happens before a single carton is sealed, not after.</span></span>
       </figure>
       <figure class="tile" style="aspect-ratio:4/3;cursor:zoom-in" data-lb="images/stills/sara-still-13-carton-conveyor.jpg" data-lb-title="10 &mdash; Packing">
-        <img decoding="async" src="images/stills/sara-still-13-carton-conveyor-640.jpg" alt="Packing" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-13-carton-conveyor-640.jpg 640w, images/stills/sara-still-13-carton-conveyor-1280.jpg 1280w, images/stills/sara-still-13-carton-conveyor.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px">
+        <picture><source type="image/webp" srcset="images/stills/sara-still-13-carton-conveyor-640.webp 640w, images/stills/sara-still-13-carton-conveyor-1280.webp 1280w, images/stills/sara-still-13-carton-conveyor.webp 1920w" sizes="(max-width: 860px) 92vw, 640px"><img decoding="async" src="images/stills/sara-still-13-carton-conveyor-640.jpg" alt="Packing" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-13-carton-conveyor-640.jpg 640w, images/stills/sara-still-13-carton-conveyor-1280.jpg 1280w, images/stills/sara-still-13-carton-conveyor.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px"></picture>
         <span class="lbl"><b>10 &nbsp;Packing</b><span>Garments are bagged, boxed and moved onto the automatic carton line, export ready.</span></span>
       </figure>
       <figure class="tile" style="aspect-ratio:4/3;cursor:zoom-in" data-lb="images/stills/sara-still-14-dispatch-loading.jpg" data-lb-title="11 &mdash; Dispatch">
-        <img decoding="async" src="images/stills/sara-still-14-dispatch-loading-640.jpg" alt="Dispatch" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-14-dispatch-loading-640.jpg 640w, images/stills/sara-still-14-dispatch-loading-1280.jpg 1280w, images/stills/sara-still-14-dispatch-loading.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px">
+        <picture><source type="image/webp" srcset="images/stills/sara-still-14-dispatch-loading-640.webp 640w, images/stills/sara-still-14-dispatch-loading-1280.webp 1280w, images/stills/sara-still-14-dispatch-loading.webp 1920w" sizes="(max-width: 860px) 92vw, 640px"><img decoding="async" src="images/stills/sara-still-14-dispatch-loading-640.jpg" alt="Dispatch" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-14-dispatch-loading-640.jpg 640w, images/stills/sara-still-14-dispatch-loading-1280.jpg 1280w, images/stills/sara-still-14-dispatch-loading.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px"></picture>
         <span class="lbl"><b>11 &nbsp;Dispatch</b><span>Cartons are staged and loaded under supervision, supporting C-TPAT and GSV requirements.</span></span>
       </figure>
       <figure class="tile" style="aspect-ratio:4/3;cursor:zoom-in" data-lb="images/stills/sara-still-15-aerial-facility-1.jpg" data-lb-title="12 &mdash; The Plant">
-        <img decoding="async" src="images/stills/sara-still-15-aerial-facility-1-640.jpg" alt="The Plant" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-15-aerial-facility-1-640.jpg 640w, images/stills/sara-still-15-aerial-facility-1-1280.jpg 1280w, images/stills/sara-still-15-aerial-facility-1.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px">
+        <picture><source type="image/webp" srcset="images/stills/sara-still-15-aerial-facility-1-640.webp 640w, images/stills/sara-still-15-aerial-facility-1-1280.webp 1280w, images/stills/sara-still-15-aerial-facility-1.webp 1920w" sizes="(max-width: 860px) 92vw, 640px"><img decoding="async" src="images/stills/sara-still-15-aerial-facility-1-640.jpg" alt="The Plant" loading="lazy" width="640" height="480" srcset="images/stills/sara-still-15-aerial-facility-1-640.jpg 640w, images/stills/sara-still-15-aerial-facility-1-1280.jpg 1280w, images/stills/sara-still-15-aerial-facility-1.jpg 1920w" sizes="(max-width: 860px) 92vw, 640px"></picture>
         <span class="lbl"><b>12 &nbsp;The Plant</b><span>The whole operation from above, in F.B. Area, Karachi.</span></span>
       </figure>
     </div>
@@ -170,7 +171,7 @@ html{background:#0E2A52}
 </section>
 
 <section class="vbanner" style="padding:0">
-  <div class="bg" style="background-image:url('images/stills/sara-still-03-cutting-floor-wide.jpg')" aria-hidden="true"></div>
+  <div class="bg" style="background-image:url('images/stills/sara-still-03-cutting-floor-wide.jpg');background-image:image-set(url('images/stills/sara-still-03-cutting-floor-wide.webp') type('image/webp'),url('images/stills/sara-still-03-cutting-floor-wide.jpg') type('image/jpeg'))" aria-hidden="true"></div>
   <div class="inner">
     <span class="eyebrow on-dark" style="justify-content:center">Prefer to Watch?</span>
     <h2>The Same Tour, in Four Minutes</h2>
@@ -211,12 +212,12 @@ html{background:#0E2A52}
     <div class="f-grid">
       <div>
         <div class="f-brand">
-          <span class="disc"><img decoding="async" src="images/sara-logo-42.png" alt="Sara Corporation logo" width="42" height="42" srcset="images/sara-logo-42.png 42w, images/sara-logo-84.png 84w, images/sara-logo.png 500w" sizes="42px"></span>
+          <span class="disc"><picture><source type="image/webp" srcset="images/sara-logo-42.webp 42w, images/sara-logo-84.webp 84w, images/sara-logo.webp 500w" sizes="42px"><img decoding="async" src="images/sara-logo-42.png" alt="Sara Corporation logo" width="42" height="42" srcset="images/sara-logo-42.png 42w, images/sara-logo-84.png 84w, images/sara-logo.png 500w" sizes="42px"></picture></span>
           <span><b>SARA CORPORATION</b><span>Apparel Division</span></span>
         </div>
         <p>An integrated apparel manufacturing and export company. Knitwear, woven apparel, bottom wear and value added garments &mdash; from yarn to finished garment, under one roof, since 1979.</p>
       </div>
-      <div><h4>Production</h4>
+      <div><h3>Production</h3>
         <ul>
           <li><a href="woven-apparel.html">Woven Apparel</a></li>
           <li><a href="knitted-apparel.html">Knitted Apparel</a></li>
@@ -224,7 +225,7 @@ html{background:#0E2A52}
           <li><a href="printed-fabrics.html">Printed Fabrics</a></li>
           <li><a href="lamination.html">Lamination</a></li>
         </ul></div>
-      <div><h4>Company</h4>
+      <div><h3>Company</h3>
         <ul>
           <li><a href="about.html">About Us</a></li>
           <li><a href="why-sara.html#quality">Quality Control</a></li>
@@ -232,7 +233,7 @@ html{background:#0E2A52}
           <li><a href="factory-tour.html">Factory Tour</a></li>
           <li><a href="responsibility.html">Responsibility</a></li>
         </ul></div>
-      <div><h4>Reach Us</h4>
+      <div><h3>Reach Us</h3>
         <ul>
           <li><a href="mailto:contact@saracorporation.com">contact@saracorporation.com</a></li>
           <li><a href="tel:+922136349182">+92 21 3634 9182 / 8384</a></li>
@@ -265,12 +266,12 @@ html{background:#0E2A52}
       <button class="lb-btn lb-close" aria-label="Close viewer"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
     </span>
   </div>
-  <div class="lb-stage"><img src="" alt=""></div>
+  <div class="lb-stage"><img alt=""></div>
   <button class="lb-nav lb-prev" aria-label="Previous image"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
   <button class="lb-nav lb-next" aria-label="Next image"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
   <span class="lb-hint">Scroll or pinch to zoom &middot; drag to pan &middot; arrow keys to browse &middot; Esc to close</span>
 </div>
 
-<script src="assets/site.js?v=5" defer></script>
+<script src="assets/site.min.js?v=6" defer></script>
 </body>
 </html>

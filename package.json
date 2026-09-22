@@ -1,0 +1,11 @@
+{
+  "name": "saracorporation-site",
+  "private": true,
+  "description": "Static site for Sara Corporation. Edit assets/site.css and assets/site.js, then run npm run build to refresh the minified files the pages load.",
+  "scripts": {
+    "build": "esbuild assets/site.css --minify --outfile=assets/site.min.css && esbuild assets/site.js --minify --target=es2017 --outfile=assets/site.min.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

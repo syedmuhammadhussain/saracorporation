@@ -40,7 +40,8 @@ html{background:#0E2A52}
 </style>
 <noscript><style>#preload{display:none!important}body.lock{overflow:auto!important}</style></noscript>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-700.woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=5">
+<link rel="preload" as="image" href="images/facility/solar-1.webp" type="image/webp" fetchpriority="high">
+<link rel="stylesheet" href="assets/site.min.css?v=6">
 <script>if(!/[?&]flat/.test(location.search))document.documentElement.classList.add('js')</script>
 </head>
 <body class="lock">
@@ -51,7 +52,7 @@ html{background:#0E2A52}
     <div class="pl-mark">
       <span class="ring"></span>
       <span class="disc"></span>
-      <img decoding="async" src="images/sara-logo-96.png" alt="Sara Corporation" width="96" height="96" srcset="images/sara-logo-96.png 96w, images/sara-logo-192.png 192w, images/sara-logo.png 500w" sizes="96px">
+      <picture><source type="image/webp" srcset="images/sara-logo-96.webp 96w, images/sara-logo-192.webp 192w, images/sara-logo.webp 500w" sizes="96px"><img decoding="async" src="images/sara-logo-96.png" alt="Sara Corporation" width="96" height="96" srcset="images/sara-logo-96.png 96w, images/sara-logo-192.png 192w, images/sara-logo.png 500w" sizes="96px"></picture>
     </div>
     <div>
       <div class="pl-name">SARA CORPORATION</div>
@@ -63,8 +64,8 @@ html{background:#0E2A52}
 
 <header id="hdr">
   <div class="wrap nav">
-    <a class="brand" href="index.html" aria-label="Sara Corporation home">
-      <span class="disc"><img decoding="async" src="images/sara-logo-60.png" alt="Sara Corporation logo" width="60" height="60" srcset="images/sara-logo-60.png 60w, images/sara-logo-120.png 120w, images/sara-logo.png 500w" sizes="60px"></span>
+    <a class="brand" href="index.html" aria-label="Sara Corporation Apparel Division, home">
+      <span class="disc"><picture><source type="image/webp" srcset="images/sara-logo-60.webp 60w, images/sara-logo-120.webp 120w, images/sara-logo.webp 500w" sizes="60px"><img decoding="async" src="images/sara-logo-60.png" alt="Sara Corporation logo" width="60" height="60" srcset="images/sara-logo-60.png 60w, images/sara-logo-120.png 120w, images/sara-logo.png 500w" sizes="60px"></picture></span>
       <span class="brand-txt"><b>SARA CORPORATION</b><span>Apparel Division</span></span>
     </a>
     <nav>
@@ -101,7 +102,7 @@ html{background:#0E2A52}
 
 <main>
 <section class="page-head">
-  <div class="bg" style="background-image:url('images/facility/solar-1.jpg')" aria-hidden="true"></div>
+  <div class="bg" style="background-image:url('images/facility/solar-1.jpg');background-image:image-set(url('images/facility/solar-1.webp') type('image/webp'),url('images/facility/solar-1.jpg') type('image/jpeg'))" aria-hidden="true"></div>
   <div class="wrap inner">
     <div class="crumbs"><a href="index.html">Home</a> <span>/</span> <span>Responsibility</span></div>
     <h1>Responsibility</h1>
@@ -117,17 +118,17 @@ html{background:#0E2A52}
     </div>
     <div class="esg">
       <article class="esg-card rv">
-        <img src="images/facility/solar-1.jpg" alt="Rooftop solar installation" loading="lazy" width="1920" height="1080">
+        <picture><source type="image/webp" srcset="images/facility/solar-1.webp"><img src="images/facility/solar-1.jpg" alt="Rooftop solar installation" loading="lazy" width="1920" height="1080"></picture>
         <div class="c"><b>Environment</b><h3>Solar Power &amp; Less Waste</h3>
           <p>A growing rooftop solar installation cuts our reliance on the grid, while automated cutting and planning reduce fabric waste and energy use. GRS certified for recycled materials.</p></div>
       </article>
       <article class="esg-card rv">
-        <img src="images/stills/sara-still-18-finishing-crew.jpg" alt="Our team on the finishing floor" loading="lazy" width="1920" height="1080">
+        <picture><source type="image/webp" srcset="images/stills/sara-still-18-finishing-crew.webp"><img src="images/stills/sara-still-18-finishing-crew.jpg" alt="Our team on the finishing floor" loading="lazy" width="1920" height="1080"></picture>
         <div class="c"><b>Social</b><h3>450+ People, Treated Properly</h3>
           <p>Fair wages, fair hours, a safe and clean workplace, ongoing training and real work life balance &mdash; verified through WRAP, SMETA and WCA audits.</p></div>
       </article>
       <article class="esg-card rv">
-        <img src="images/facility/security-cctv.jpg" alt="Central CCTV control room" loading="lazy" width="1920" height="1281">
+        <picture><source type="image/webp" srcset="images/facility/security-cctv.webp"><img src="images/facility/security-cctv.jpg" alt="Central CCTV control room" loading="lazy" width="1920" height="1281"></picture>
         <div class="c"><b>Governance</b><h3>Watched, Recorded, Protected</h3>
           <p>CCTV from gate to dispatch, a manned control room around the clock, controlled access and supervised loading supporting C-TPAT and GSV supply chain security.</p></div>
       </article>
@@ -138,10 +139,10 @@ html{background:#0E2A52}
 <section class="alt">
   <div class="wrap split">
     <div class="figure-stack rv">
-      <img class="big" src="images/facility/solar-2.jpg" alt="Solar panels on the factory roof" loading="lazy" width="1920" height="1080"
-           data-lb="images/facility/solar-2.jpg" data-lb-title="Rooftop solar installation">
-      <img class="small" src="images/facility/drone-1.jpg" alt="Aerial view of the facility" loading="lazy" width="1920" height="1080"
-           data-lb="images/facility/drone-1.jpg" data-lb-title="Aerial view of the facility">
+      <picture><source type="image/webp" srcset="images/facility/solar-2.webp"><img class="big" src="images/facility/solar-2.jpg" alt="Solar panels on the factory roof" loading="lazy" width="1920" height="1080"
+           data-lb="images/facility/solar-2.jpg" data-lb-title="Rooftop solar installation"></picture>
+      <picture><source type="image/webp" srcset="images/facility/drone-1.webp"><img class="small" src="images/facility/drone-1.jpg" alt="Aerial view of the facility" loading="lazy" width="1920" height="1080"
+           data-lb="images/facility/drone-1.jpg" data-lb-title="Aerial view of the facility"></picture>
     </div>
     <div class="body-copy rv">
       <span class="eyebrow">Sustainability</span>
@@ -160,8 +161,8 @@ html{background:#0E2A52}
 <section>
   <div class="wrap split rev">
     <div class="figure-stack rv">
-      <img class="big" src="images/stills/sara-still-09-finishing-team.jpg" alt="Skilled hands on the finishing floor" loading="lazy" width="1920" height="1080"
-           data-lb="images/stills/sara-still-09-finishing-team.jpg" data-lb-title="Skilled hands on the finishing floor">
+      <picture><source type="image/webp" srcset="images/stills/sara-still-09-finishing-team.webp"><img class="big" src="images/stills/sara-still-09-finishing-team.jpg" alt="Skilled hands on the finishing floor" loading="lazy" width="1920" height="1080"
+           data-lb="images/stills/sara-still-09-finishing-team.jpg" data-lb-title="Skilled hands on the finishing floor"></picture>
     </div>
     <div class="body-copy rv">
       <span class="eyebrow">Our People</span>
@@ -186,19 +187,19 @@ html{background:#0E2A52}
       <p class="lede" style="margin-inline:auto">We welcome customer audits as a chance to show exactly how we work.</p>
     </div>
     <div class="certs rv">
-      <div class="cert"><img src="images/certs/wrap.png" alt="WRAP certified" loading="lazy" width="2308" height="2662"></div>
-      <div class="cert"><img src="images/certs/sedex.png" alt="SMETA Sedex" loading="lazy" width="914" height="347"></div>
-      <div class="cert"><img src="images/certs/iso.png" alt="ISO 9001 and ISO 14001" loading="lazy" width="561" height="281"></div>
-      <div class="cert"><img src="images/certs/grs.webp" alt="Global Recycled Standard" loading="lazy" width="1506" height="731"></div>
-      <div class="cert"><img src="images/certs/gsv.png" alt="Global Security Verification" loading="lazy" width="413" height="553"></div>
-      <div class="cert"><img src="images/certs/ctpat.jpg" alt="C-TPAT" loading="lazy" width="614" height="243"></div>
-      <div class="cert"><img src="images/certs/wca.png" alt="Workplace Conditions Assessment" loading="lazy" width="239" height="339"></div>
+      <div class="cert"><picture><source type="image/webp" srcset="images/certs/wrap.webp"><img src="images/certs/wrap.png" alt="WRAP certified" loading="lazy" width="2308" height="2662"></picture></div>
+      <div class="cert"><picture><source type="image/webp" srcset="images/certs/sedex.webp"><img src="images/certs/sedex.png" alt="SMETA Sedex" loading="lazy" width="914" height="347"></picture></div>
+      <div class="cert"><picture><source type="image/webp" srcset="images/certs/iso.webp"><img src="images/certs/iso.png" alt="ISO 9001 and ISO 14001" loading="lazy" width="561" height="281"></picture></div>
+      <div class="cert"><picture><source type="image/webp" srcset="images/certs/grs.webp"><img src="images/certs/grs.webp" alt="Global Recycled Standard" loading="lazy" width="1506" height="731"></picture></div>
+      <div class="cert"><picture><source type="image/webp" srcset="images/certs/gsv.webp"><img src="images/certs/gsv.png" alt="Global Security Verification" loading="lazy" width="413" height="553"></picture></div>
+      <div class="cert"><picture><source type="image/webp" srcset="images/certs/ctpat.webp"><img src="images/certs/ctpat.jpg" alt="C-TPAT" loading="lazy" width="614" height="243"></picture></div>
+      <div class="cert"><picture><source type="image/webp" srcset="images/certs/wca.webp"><img src="images/certs/wca.png" alt="Workplace Conditions Assessment" loading="lazy" width="239" height="339"></picture></div>
     </div>
   </div>
 </section>
 
 <section class="vbanner" style="padding:0">
-  <div class="bg" style="background-image:url('images/facility/drone-1.jpg')" aria-hidden="true"></div>
+  <div class="bg" style="background-image:url('images/facility/drone-1.jpg');background-image:image-set(url('images/facility/drone-1.webp') type('image/webp'),url('images/facility/drone-1.jpg') type('image/jpeg'))" aria-hidden="true"></div>
   <div class="inner">
     <span class="eyebrow on-dark" style="justify-content:center">Ready When You Are</span>
     <h2>Build With a Partner You Can Audit</h2>
@@ -215,12 +216,12 @@ html{background:#0E2A52}
     <div class="f-grid">
       <div>
         <div class="f-brand">
-          <span class="disc"><img decoding="async" src="images/sara-logo-42.png" alt="Sara Corporation logo" width="42" height="42" srcset="images/sara-logo-42.png 42w, images/sara-logo-84.png 84w, images/sara-logo.png 500w" sizes="42px"></span>
+          <span class="disc"><picture><source type="image/webp" srcset="images/sara-logo-42.webp 42w, images/sara-logo-84.webp 84w, images/sara-logo.webp 500w" sizes="42px"><img decoding="async" src="images/sara-logo-42.png" alt="Sara Corporation logo" width="42" height="42" srcset="images/sara-logo-42.png 42w, images/sara-logo-84.png 84w, images/sara-logo.png 500w" sizes="42px"></picture></span>
           <span><b>SARA CORPORATION</b><span>Apparel Division</span></span>
         </div>
         <p>An integrated apparel manufacturing and export company. Knitwear, woven apparel, bottom wear and value added garments &mdash; from yarn to finished garment, under one roof, since 1979.</p>
       </div>
-      <div><h4>Explore</h4>
+      <div><h3>Explore</h3>
         <ul>
           <li><a href="about.html">About Us</a></li>
           <li><a href="why-sara.html">Why Sara</a></li>
@@ -228,7 +229,7 @@ html{background:#0E2A52}
           <li><a href="facility.html">Facility</a></li>
           <li><a href="responsibility.html">Responsibility</a></li>
         </ul></div>
-      <div><h4>Company</h4>
+      <div><h3>Company</h3>
         <ul>
           <li><a href="why-sara.html#quality">Quality Assurance</a></li>
           <li><a href="why-sara.html#certs">Certifications</a></li>
@@ -236,7 +237,7 @@ html{background:#0E2A52}
           <li><button data-video type="button">Company Film</button></li>
           <li><a href="contact.html">Contact</a></li>
         </ul></div>
-      <div><h4>Reach Us</h4>
+      <div><h3>Reach Us</h3>
         <ul>
           <li><a href="mailto:contact@saracorporation.com">contact@saracorporation.com</a></li>
           <li><a href="tel:+922136349182">+92 21 3634 9182-4</a></li>
@@ -269,12 +270,12 @@ html{background:#0E2A52}
       <button class="lb-btn lb-close" aria-label="Close viewer"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
     </span>
   </div>
-  <div class="lb-stage"><img src="" alt=""></div>
+  <div class="lb-stage"><img alt=""></div>
   <button class="lb-nav lb-prev" aria-label="Previous image"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
   <button class="lb-nav lb-next" aria-label="Next image"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
   <span class="lb-hint">Scroll or pinch to zoom &middot; drag to pan &middot; arrow keys to browse &middot; Esc to close</span>
 </div>
 
-<script src="assets/site.js?v=5" defer></script>
+<script src="assets/site.min.js?v=6" defer></script>
 </body>
 </html>

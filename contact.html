@@ -40,7 +40,8 @@ html{background:#0E2A52}
 </style>
 <noscript><style>#preload{display:none!important}body.lock{overflow:auto!important}</style></noscript>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-700.woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=5">
+<link rel="preload" as="image" href="images/stills/sara-still-13-carton-conveyor.webp" type="image/webp" fetchpriority="high">
+<link rel="stylesheet" href="assets/site.min.css?v=6">
 <script>if(!/[?&]flat/.test(location.search))document.documentElement.classList.add('js')</script>
 </head>
 <body class="lock">
@@ -51,7 +52,7 @@ html{background:#0E2A52}
     <div class="pl-mark">
       <span class="ring"></span>
       <span class="disc"></span>
-      <img decoding="async" src="images/sara-logo-96.png" alt="Sara Corporation" width="96" height="96" srcset="images/sara-logo-96.png 96w, images/sara-logo-192.png 192w, images/sara-logo.png 500w" sizes="96px">
+      <picture><source type="image/webp" srcset="images/sara-logo-96.webp 96w, images/sara-logo-192.webp 192w, images/sara-logo.webp 500w" sizes="96px"><img decoding="async" src="images/sara-logo-96.png" alt="Sara Corporation" width="96" height="96" srcset="images/sara-logo-96.png 96w, images/sara-logo-192.png 192w, images/sara-logo.png 500w" sizes="96px"></picture>
     </div>
     <div>
       <div class="pl-name">SARA CORPORATION</div>
@@ -63,8 +64,8 @@ html{background:#0E2A52}
 
 <header id="hdr">
   <div class="wrap nav">
-    <a class="brand" href="index.html" aria-label="Sara Corporation home">
-      <span class="disc"><img decoding="async" src="images/sara-logo-60.png" alt="Sara Corporation logo" width="60" height="60" srcset="images/sara-logo-60.png 60w, images/sara-logo-120.png 120w, images/sara-logo.png 500w" sizes="60px"></span>
+    <a class="brand" href="index.html" aria-label="Sara Corporation Apparel Division, home">
+      <span class="disc"><picture><source type="image/webp" srcset="images/sara-logo-60.webp 60w, images/sara-logo-120.webp 120w, images/sara-logo.webp 500w" sizes="60px"><img decoding="async" src="images/sara-logo-60.png" alt="Sara Corporation logo" width="60" height="60" srcset="images/sara-logo-60.png 60w, images/sara-logo-120.png 120w, images/sara-logo.png 500w" sizes="60px"></picture></span>
       <span class="brand-txt"><b>SARA CORPORATION</b><span>Apparel Division</span></span>
     </a>
     <nav>
@@ -101,7 +102,7 @@ html{background:#0E2A52}
 
 <main>
 <section class="page-head">
-  <div class="bg" style="background-image:url('images/stills/sara-still-13-carton-conveyor.jpg')" aria-hidden="true"></div>
+  <div class="bg" style="background-image:url('images/stills/sara-still-13-carton-conveyor.jpg');background-image:image-set(url('images/stills/sara-still-13-carton-conveyor.webp') type('image/webp'),url('images/stills/sara-still-13-carton-conveyor.jpg') type('image/jpeg'))" aria-hidden="true"></div>
   <div class="wrap inner">
     <div class="crumbs"><a href="index.html">Home</a> <span>/</span> <span>Contact</span></div>
     <h1>Get a Quote</h1>
@@ -123,7 +124,7 @@ html{background:#0E2A52}
           <span><b>Company Film</b><button data-video type="button" style="color:var(--teal-600);font-weight:700;font-size:.93rem">Watch the factory tour &rarr;</button></span></div>
 
         <div class="cnext">
-          <h4>What happens next</h4>
+          <h2 class="cnext-h">What happens next</h2>
           <ol class="cnext-steps">
             <li>
               <span class="n">1</span>
@@ -141,7 +142,7 @@ html{background:#0E2A52}
         </div>
 
         <a class="cshot" href="facility.html">
-          <img decoding="async" src="images/stills/sara-still-15-aerial-facility-1-880.jpg" alt="Sara Corporation facility from the air, Karachi" loading="lazy" width="880" height="550" srcset="images/stills/sara-still-15-aerial-facility-1-880.jpg 880w, images/stills/sara-still-15-aerial-facility-1-1760.jpg 1760w, images/stills/sara-still-15-aerial-facility-1.jpg 1920w" sizes="(max-width: 860px) 92vw, 880px">
+          <picture><source type="image/webp" srcset="images/stills/sara-still-15-aerial-facility-1-880.webp 880w, images/stills/sara-still-15-aerial-facility-1-1760.webp 1760w, images/stills/sara-still-15-aerial-facility-1.webp 1920w" sizes="(max-width: 860px) 92vw, 880px"><img decoding="async" src="images/stills/sara-still-15-aerial-facility-1-880.jpg" alt="Sara Corporation facility from the air, Karachi" loading="lazy" width="880" height="550" srcset="images/stills/sara-still-15-aerial-facility-1-880.jpg 880w, images/stills/sara-still-15-aerial-facility-1-1760.jpg 1760w, images/stills/sara-still-15-aerial-facility-1.jpg 1920w" sizes="(max-width: 860px) 92vw, 880px"></picture>
           <span class="cshot-cap">
             <b>The factory you are writing to</b>
             <span>Knitting, stitching, printing and dyeing on one site in Karachi &mdash; since 1979.</span>
@@ -260,12 +261,12 @@ html{background:#0E2A52}
     <div class="f-grid">
       <div>
         <div class="f-brand">
-          <span class="disc"><img decoding="async" src="images/sara-logo-42.png" alt="Sara Corporation logo" width="42" height="42" srcset="images/sara-logo-42.png 42w, images/sara-logo-84.png 84w, images/sara-logo.png 500w" sizes="42px"></span>
+          <span class="disc"><picture><source type="image/webp" srcset="images/sara-logo-42.webp 42w, images/sara-logo-84.webp 84w, images/sara-logo.webp 500w" sizes="42px"><img decoding="async" src="images/sara-logo-42.png" alt="Sara Corporation logo" width="42" height="42" srcset="images/sara-logo-42.png 42w, images/sara-logo-84.png 84w, images/sara-logo.png 500w" sizes="42px"></picture></span>
           <span><b>SARA CORPORATION</b><span>Apparel Division</span></span>
         </div>
         <p>An integrated apparel manufacturing and export company. Knitwear, woven apparel, bottom wear and value added garments &mdash; from yarn to finished garment, under one roof, since 1979.</p>
       </div>
-      <div><h4>Explore</h4>
+      <div><h3>Explore</h3>
         <ul>
           <li><a href="about.html">About Us</a></li>
           <li><a href="why-sara.html">Why Sara</a></li>
@@ -273,7 +274,7 @@ html{background:#0E2A52}
           <li><a href="facility.html">Facility</a></li>
           <li><a href="responsibility.html">Responsibility</a></li>
         </ul></div>
-      <div><h4>Company</h4>
+      <div><h3>Company</h3>
         <ul>
           <li><a href="why-sara.html#quality">Quality Assurance</a></li>
           <li><a href="why-sara.html#certs">Certifications</a></li>
@@ -281,7 +282,7 @@ html{background:#0E2A52}
           <li><button data-video type="button">Company Film</button></li>
           <li><a href="contact.html">Contact</a></li>
         </ul></div>
-      <div><h4>Reach Us</h4>
+      <div><h3>Reach Us</h3>
         <ul>
           <li><a href="mailto:contact@saracorporation.com">contact@saracorporation.com</a></li>
           <li><a href="tel:+922136349182">+92 21 3634 9182-4</a></li>
@@ -304,6 +305,6 @@ html{background:#0E2A52}
   </div>
 </div>
 
-<script src="assets/site.js?v=5" defer></script>
+<script src="assets/site.min.js?v=6" defer></script>
 </body>
 </html>
