@@ -26,7 +26,7 @@ html{background:#0E2A52}
 </style>
 <noscript><style>#preload{display:none!important}body.lock{overflow:auto!important}</style></noscript>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-700.woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=2">
+<link rel="stylesheet" href="assets/site.css?v=3">
 <script>if(!/[?&]flat/.test(location.search))document.documentElement.classList.add('js')</script>
 </head>
 <body class="lock">
@@ -105,12 +105,8 @@ html{background:#0E2A52}
           <span><b>Email</b><a href="mailto:contact@saracorporation.com">contact@saracorporation.com</a></span></div>
         <div class="crow"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg></span>
           <span><b>Telephone</b><a href="tel:+922136349182">+92 21 3634 9182-4</a></span></div>
-        <div class="crow"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></span>
-          <span><b>Website</b><a href="https://www.saracorporation.com" rel="noopener">www.saracorporation.com</a></span></div>
         <div class="crow"><span class="ico"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
           <span><b>Company Film</b><button data-video type="button" style="color:var(--teal-600);font-weight:700;font-size:.93rem">Watch the factory tour &rarr;</button></span></div>
-        <div class="crow"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
-          <span><b>Working Hours</b><span>Monday to Saturday, 9:00 to 18:00 PKT (UTC+5)</span></span></div>
       </div>
 
       <div class="cform rv">
@@ -135,6 +131,31 @@ html{background:#0E2A52}
             <div class="field"><label for="f-qty">Quantity</label><input id="f-qty" name="quantity" type="text" placeholder="Pieces per style"></div>
           </div>
           <div class="field"><label for="f-msg">Your Requirement <span class="req" aria-hidden="true">*</span></label><textarea id="f-msg" name="message" placeholder="Fabric, target price, delivery window, certifications needed&hellip;" data-rule="message" required></textarea></div>
+
+          <div class="field" data-techpack>
+            <label id="tp-label">Tech Pack <span class="opt">&mdash; optional</span></label>
+            <div class="tp-tabs" role="tablist" aria-labelledby="tp-label">
+              <button type="button" class="tp-tab is-on" data-tp="link" role="tab" aria-selected="true">Share a link</button>
+              <button type="button" class="tp-tab" data-tp="file" role="tab" aria-selected="false">Upload a file</button>
+            </div>
+
+            <div class="tp-pane on" data-tp-pane="link" role="tabpanel">
+              <input id="f-link" name="techpack" type="url" inputmode="url"
+                     placeholder="Drive, Dropbox or WeTransfer link" data-rule="link">
+              <p class="tp-note">Best for large tech packs. Please keep the link open to anyone with the address.</p>
+            </div>
+
+            <div class="tp-pane" data-tp-pane="file" role="tabpanel">
+              <label class="tp-drop" for="f-file">
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5-5 5 5"/><path d="M12 5v13"/></svg>
+                <span class="tp-copy"><b data-tp-name>Choose a file or drop it here</b><span data-tp-hint>PDF, image, Excel, Word or ZIP &middot; up to 10 MB</span></span>
+                <span class="tp-clear" role="button" tabindex="0" aria-label="Remove file" data-tp-clear><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+              </label>
+              <input id="f-file" name="attachment" type="file" class="tp-file"
+                     accept=".pdf,.png,.jpg,.jpeg,.webp,.xlsx,.xls,.docx,.doc,.zip,.rar,.ai,.psd">
+              <p class="tp-note">The file is attached to the enquiry email. Sending a file opens a confirmation page.</p>
+            </div>
+          </div>
           <button class="btn btn-primary" type="submit"><span class="btn-label">Send Enquiry <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span><span class="btn-spin" aria-hidden="true"><i></i></span></button>
           <p class="fine" style="margin-top:0">Fields marked <span class="req">*</span> are required. We never share your details.</p>
         </form>
@@ -220,6 +241,6 @@ html{background:#0E2A52}
   </div>
 </div>
 
-<script src="assets/site.js?v=2" defer></script>
+<script src="assets/site.js?v=3" defer></script>
 </body>
 </html>

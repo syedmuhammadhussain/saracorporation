@@ -520,8 +520,15 @@
       },
       country: { min: 2, msg: 'Let us know which country you ship to.' },
       product: { min: 2, msg: 'Tell us which product you are asking about.' },
-      message: { min: 15, msg: 'A line about fabric, quantity or delivery helps us quote properly.' }
+      message: { min: 15, msg: 'A line about fabric, quantity or delivery helps us quote properly.' },
+      link: {
+        optional: true,
+        test: function (v) { return /^https?:\/\/[^\s.]+\.[^\s]{2,}$/i.test(v); },
+        msg: 'Paste a full link, starting with https://'
+      }
     };
+
+    var MAX_FILE = 10 * 1024 * 1024;   /* FormSubmit refuses anything past 10MB */
 
     var TICK = '<svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-10"/></svg>',
         CROSS = '<svg viewBox="0 0 24 24"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>',
@@ -560,7 +567,7 @@
 
     function errorOf(c) {
       var v = c.el.value.trim(), r = c.rule || {};
-      if (!v) return 'This field is required.';
+      if (!v) return r.optional ? '' : 'This field is required.';
       if (r.test && !r.test(v)) return r.msg;
       if (r.min && v.length < r.min) return r.msg;
       return '';
@@ -589,6 +596,7 @@
 
     function check(c, shake) {
       var err = errorOf(c);
+      if (!c.el.value.trim() && (c.rule || {}).optional) { clear(c); return ''; }
       if (!c.touched && !c.el.value.trim()) { clear(c); return err; }
       paint(c, err, shake);
       return err;
@@ -601,6 +609,93 @@
         if (c.touched || c.field.classList.contains('bad')) check(c, false);
       });
     });
+
+    /* ---- tech pack: a link or a file, never both at once ---- */
+    var tp = $('[data-techpack]', form),
+        fileIn = tp && $('.tp-file', tp),
+        linkIn = tp && $('[data-rule=link]', tp),
+        drop = tp && $('.tp-drop', tp),
+        tpName = tp && $('[data-tp-name]', tp),
+        tpHint = tp && $('[data-tp-hint]', tp),
+        tpMode = 'link',
+        fileErr = '';
+
+    function setMode(mode) {
+      tpMode = mode;
+      $$('.tp-tab', tp).forEach(function (b) {
+        var on = b.getAttribute('data-tp') === mode;
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      $$('.tp-pane', tp).forEach(function (pane) {
+        pane.classList.toggle('on', pane.getAttribute('data-tp-pane') === mode);
+      });
+      /* whichever side is hidden must not travel with the enquiry */
+      if (mode === 'link') { clearFile(); }
+      else if (linkIn) { linkIn.value = ''; controls.forEach(function (c) { if (c.el === linkIn) clear(c); }); }
+    }
+
+    function humanSize(n) {
+      return n < 1024 * 1024 ? Math.max(1, Math.round(n / 1024)) + ' KB'
+                             : (n / 1024 / 1024).toFixed(1) + ' MB';
+    }
+
+    function paintFile() {
+      var f = fileIn && fileIn.files && fileIn.files[0];
+      fileErr = '';
+      if (!f) {
+        drop.classList.remove('has', 'bad');
+        tpName.textContent = 'Choose a file or drop it here';
+        tpHint.textContent = 'PDF, image, Excel, Word or ZIP \u00b7 up to 10 MB';
+        return;
+      }
+      if (f.size > MAX_FILE) {
+        fileErr = 'That file is ' + humanSize(f.size) + '. The limit is 10 MB — please send a link instead.';
+        drop.classList.remove('has');
+        drop.classList.add('bad');
+        tpName.textContent = f.name;
+        tpHint.textContent = fileErr;
+        return;
+      }
+      drop.classList.remove('bad');
+      drop.classList.add('has');
+      tpName.textContent = f.name;
+      tpHint.textContent = humanSize(f.size) + ' \u00b7 attached to your enquiry';
+    }
+
+    function clearFile() {
+      if (!fileIn) return;
+      fileIn.value = '';
+      paintFile();
+    }
+
+    if (tp) {
+      $$('.tp-tab', tp).forEach(function (b) {
+        b.addEventListener('click', function () { setMode(b.getAttribute('data-tp')); });
+      });
+      fileIn.addEventListener('change', function () { hideAlert(); paintFile(); });
+
+      var clearBtn = $('[data-tp-clear]', tp);
+      clearBtn.addEventListener('click', function (e) { e.preventDefault(); clearFile(); });
+      clearBtn.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); clearFile(); }
+      });
+
+      ['dragenter', 'dragover'].forEach(function (ev) {
+        drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('drag'); });
+      });
+      ['dragleave', 'drop'].forEach(function (ev) {
+        drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('drag'); });
+      });
+      drop.addEventListener('drop', function (e) {
+        var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+        if (!f) return;
+        var dt = new DataTransfer();
+        dt.items.add(f);
+        fileIn.files = dt.files;
+        paintFile();
+      });
+    }
 
     function showAlert(html) {
       if (!alertBox) return;
@@ -637,15 +732,46 @@
         return;
       }
 
+      /* an oversized file would be rejected by the server, so stop here */
+      if (tpMode === 'file') {
+        paintFile();
+        if (fileErr) {
+          flashBtn();
+          drop.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+      }
+
       /* honeypot: a filled hidden field means a bot, so show success and send nothing */
       var honey = form.querySelector('[name=_honey]');
       if (honey && honey.value) { succeed(); return; }
+
+      /* an attachment cannot ride on the JSON endpoint, so a file posts the
+         classic way and lands on the thank you page instead */
+      if (tpMode === 'file' && fileIn.files.length) {
+        setBtn('sending');
+        sending = true;
+        form.setAttribute('enctype', 'multipart/form-data');
+        var next = form.querySelector('[name=_next]');
+        if (!next) {
+          next = document.createElement('input');
+          next.type = 'hidden';
+          next.name = '_next';
+          form.appendChild(next);
+        }
+        next.value = location.origin + '/thank-you.html';
+        form.submit();
+        return;
+      }
 
       sending = true;
       setBtn('sending');
 
       var payload = {};
-      new FormData(form).forEach(function (v, k) { if (k !== '_honey') payload[k] = v; });
+      new FormData(form).forEach(function (v, k) {
+        if (k === '_honey' || k === 'attachment') return;   /* a File cannot be serialised */
+        payload[k] = v;
+      });
 
       fetch(endpoint, {
         method: 'POST',
@@ -680,6 +806,7 @@
       form.style.display = 'none';
       form.reset();
       controls.forEach(function (c) { clear(c); c.touched = false; });
+      if (tp) { setMode('link'); paintFile(); }
       setBtn(null);
       if (done) done.classList.add('show');
     }
