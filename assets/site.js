@@ -617,6 +617,10 @@
         drop = tp && $('.tp-drop', tp),
         tpName = tp && $('[data-tp-name]', tp),
         tpHint = tp && $('[data-tp-hint]', tp),
+        meter = tp && $('[data-tp-meter]', tp),
+        meterBar = tp && $('[data-tp-meter] i', tp),
+        meterTxt = tp && $('[data-tp-meter-text]', tp),
+        switchBtn = tp && $('[data-tp-switch]', tp),
         tpMode = 'link',
         fileErr = '';
 
@@ -643,24 +647,41 @@
     function paintFile() {
       var f = fileIn && fileIn.files && fileIn.files[0];
       fileErr = '';
+
       if (!f) {
         drop.classList.remove('has', 'bad');
         tpName.textContent = 'Choose a file or drop it here';
         tpHint.textContent = 'PDF, image, Excel, Word or ZIP \u00b7 up to 10 MB';
+        meter.hidden = true;
+        switchBtn.hidden = true;
         return;
       }
+
+      /* the meter shows how much of the 10MB allowance the file eats */
+      var pct = Math.min(100, Math.round(f.size / MAX_FILE * 100));
+      meter.hidden = false;
+      meterBar.style.width = pct + '%';
+      meter.classList.toggle('over', f.size > MAX_FILE);
+      meter.classList.toggle('warn', f.size <= MAX_FILE && pct >= 75);
+      meterTxt.textContent = humanSize(f.size) + ' of 10 MB';
+
       if (f.size > MAX_FILE) {
-        fileErr = 'That file is ' + humanSize(f.size) + '. The limit is 10 MB — please send a link instead.';
+        fileErr = 'This file is ' + humanSize(f.size) + ', over the 10 MB limit. Send it as a link instead.';
         drop.classList.remove('has');
         drop.classList.add('bad');
         tpName.textContent = f.name;
         tpHint.textContent = fileErr;
+        switchBtn.hidden = false;
         return;
       }
+
       drop.classList.remove('bad');
       drop.classList.add('has');
+      switchBtn.hidden = true;
       tpName.textContent = f.name;
-      tpHint.textContent = humanSize(f.size) + ' \u00b7 attached to your enquiry';
+      tpHint.textContent = pct >= 75
+        ? humanSize(f.size) + ' \u00b7 close to the 10 MB limit, but it will send'
+        : humanSize(f.size) + ' \u00b7 attached to your enquiry';
     }
 
     function clearFile() {
@@ -674,6 +695,12 @@
         b.addEventListener('click', function () { setMode(b.getAttribute('data-tp')); });
       });
       fileIn.addEventListener('change', function () { hideAlert(); paintFile(); });
+
+      switchBtn.addEventListener('click', function () {
+        clearFile();
+        setMode('link');
+        if (linkIn) linkIn.focus();
+      });
 
       var clearBtn = $('[data-tp-clear]', tp);
       clearBtn.addEventListener('click', function (e) { e.preventDefault(); clearFile(); });

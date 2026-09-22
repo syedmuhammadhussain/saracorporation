@@ -136,7 +136,7 @@ html{background:#0E2A52}
             <label id="tp-label">Tech Pack <span class="opt">&mdash; optional</span></label>
             <div class="tp-tabs" role="tablist" aria-labelledby="tp-label">
               <button type="button" class="tp-tab is-on" data-tp="link" role="tab" aria-selected="true">Share a link</button>
-              <button type="button" class="tp-tab" data-tp="file" role="tab" aria-selected="false">Upload a file</button>
+              <button type="button" class="tp-tab" data-tp="file" role="tab" aria-selected="false">Upload a file <span class="tp-cap">MAX 10 MB</span></button>
             </div>
 
             <div class="tp-pane on" data-tp-pane="link" role="tabpanel">
@@ -146,6 +146,10 @@ html{background:#0E2A52}
             </div>
 
             <div class="tp-pane" data-tp-pane="file" role="tabpanel">
+              <p class="tp-info">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-5M12 8v.01"/></svg>
+                <span><b>One file, up to 10 MB.</b> PDF, image, Excel, Word or ZIP. Anything heavier will not reach us &mdash; use <b>Share a link</b> for a full tech pack.</span>
+              </p>
               <label class="tp-drop" for="f-file">
                 <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5-5 5 5"/><path d="M12 5v13"/></svg>
                 <span class="tp-copy"><b data-tp-name>Choose a file or drop it here</b><span data-tp-hint>PDF, image, Excel, Word or ZIP &middot; up to 10 MB</span></span>
@@ -153,6 +157,11 @@ html{background:#0E2A52}
               </label>
               <input id="f-file" name="attachment" type="file" class="tp-file"
                      accept=".pdf,.png,.jpg,.jpeg,.webp,.xlsx,.xls,.docx,.doc,.zip,.rar,.ai,.psd">
+              <div class="tp-meter" data-tp-meter hidden aria-hidden="true">
+                <span class="tp-bar"><i></i></span>
+                <span data-tp-meter-text></span>
+              </div>
+              <button type="button" class="tp-switch" data-tp-switch hidden>Send a link instead &rarr;</button>
               <p class="tp-note">The file is attached to the enquiry email. Sending a file opens a confirmation page.</p>
             </div>
           </div>

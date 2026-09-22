@@ -859,6 +859,32 @@ html.js .figure-stack .badge{animation:floaty 1.5s ease-in-out infinite}
 .ty-next .fine a{color:var(--teal)}
 @media (max-width:860px){.ty-card{grid-template-columns:1fr}}
 
+/* the 10MB ceiling, said before the file is picked, while it is picked and if it is missed */
+.tp-cap{display:inline-block;margin-left:7px;padding:2px 7px;border-radius:100px;font-size:.62rem;font-weight:800;
+  letter-spacing:.06em;background:rgba(255,255,255,.16);color:rgba(255,255,255,.8);vertical-align:1px}
+.tp-tab.is-on .tp-cap{background:rgba(0,0,0,.22);color:rgba(255,255,255,.95)}
+.tp-info{display:flex;align-items:flex-start;gap:9px;margin-bottom:10px;padding:10px 12px;border-radius:10px;
+  background:rgba(22,182,201,.12);border:1px solid rgba(22,182,201,.32);font-size:.79rem;line-height:1.55;
+  color:rgba(255,255,255,.82)}
+.tp-info svg{width:15px;height:15px;flex:none;margin-top:2px;fill:none;stroke:var(--teal);stroke-width:2.4;stroke-linecap:round}
+.tp-info b{color:#fff;font-weight:700}
+
+.tp-meter{display:none;align-items:center;gap:10px;margin-top:9px}
+.tp-meter:not([hidden]){display:flex}
+.tp-meter .tp-bar{flex:1;height:5px;border-radius:100px;background:rgba(255,255,255,.14);overflow:hidden}
+.tp-meter .tp-bar i{display:block;height:100%;width:0;border-radius:100px;background:#2FD98B;
+  transition:width .5s cubic-bezier(.2,1,.3,1),background .3s}
+.tp-meter.warn .tp-bar i{background:var(--orange)}
+.tp-meter.over .tp-bar i{background:#FF6B6B}
+.tp-meter [data-tp-meter-text]{flex:none;font-size:.73rem;font-weight:700;color:rgba(255,255,255,.62)}
+.tp-meter.warn [data-tp-meter-text]{color:#FFC89A}
+.tp-meter.over [data-tp-meter-text]{color:#FFB4B4}
+
+.tp-switch{display:none;margin-top:10px;padding:9px 15px;border-radius:10px;font-size:.79rem;font-weight:700;
+  background:var(--teal);color:#05262b;transition:.22s;animation:fslide .34s cubic-bezier(.2,1.2,.3,1)}
+.tp-switch:not([hidden]){display:inline-block}
+.tp-switch:hover{background:#12cde3;transform:translateY(-1px)}
+
 @keyframes fdraw{to{stroke-dashoffset:0}}
 @keyframes fshake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}
   30%,50%,70%{transform:translateX(-7px)}40%,60%{transform:translateX(7px)}100%{transform:translateX(0)}}
