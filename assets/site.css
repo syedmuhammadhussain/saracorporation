@@ -322,7 +322,9 @@ html:not(.js) .hero{min-height:860px!important;height:860px}
 .dark .card .num{color:rgba(255,255,255,.07)}
 
 /* ---------- category tiles (Utopia style) ---------- */
-.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+/* two-up variant (Production units) — stays two across on desktop and large screens */
+.tiles.tiles-2{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}
 .tile{position:relative;display:block;border-radius:var(--r);overflow:hidden;aspect-ratio:3/4.1;background:var(--navy);
   box-shadow:var(--shadow);transition:transform .35s var(--ease),box-shadow .35s}
 .tile img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
@@ -660,7 +662,7 @@ html.js .figure-stack .badge{animation:floaty 1.5s ease-in-out infinite}
 }
 @media(max-width:620px){
   :root{--gutter:32px}
-  .g2,.g3,.g4,.esg,.tiles{grid-template-columns:1fr}
+  .g2,.g3,.g4,.esg,.tiles,.tiles.tiles-2{grid-template-columns:1fr}
   .rail{grid-template-columns:repeat(2,minmax(0,1fr))}
   .rail.rail-5{grid-template-columns:1fr;gap:12px}
   .timeline{margin:0 2rem}
