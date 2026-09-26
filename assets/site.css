@@ -360,12 +360,19 @@ html:not(.js) .hero{min-height:860px!important;height:860px}
 .stat span{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.7)}
 
 /* ---------- video banner ---------- */
-.vbanner{position:relative;min-height:clamp(400px,58vh,620px);display:grid;place-items:center;overflow:hidden;color:#fff;text-align:center}
-.vbanner .bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.04)}
-.vbanner .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,27,54,.72),rgba(7,27,54,.86))}
-.vbanner .inner{position:relative;z-index:2;padding:40px 22px;display:grid;justify-items:center;gap:18px}
-.vbanner h2{color:#fff;font-size:clamp(1.7rem,4vw,3rem);font-weight:900;max-width:18ch;text-wrap:balance}
-.vbanner p{color:rgba(255,255,255,.76);max-width:56ch}
+.vbanner{position:relative;isolation:isolate;min-height:clamp(440px,62vh,640px);display:grid;place-items:center;overflow:hidden;
+  color:#fff;text-align:center;background:var(--navy-900)}
+/* the art is a real <img> inside <picture>, so the tint lives on the picture — ::after never renders on an <img> */
+.vbanner picture{position:absolute;inset:0;z-index:-1;display:block}
+.vbanner .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.04)}
+.vbanner picture::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 65% at 50% 50%,rgba(7,27,54,.55),transparent 75%),
+    linear-gradient(180deg,rgba(7,27,54,.78) 0%,rgba(7,27,54,.7) 45%,rgba(7,27,54,.9) 100%)}
+.vbanner .inner{position:relative;z-index:2;max-width:760px;padding:clamp(64px,9vw,110px) var(--gutter);display:grid;justify-items:center;gap:18px}
+.vbanner h2{color:#fff;font-size:clamp(1.8rem,4vw,3rem);font-weight:900;line-height:1.12;max-width:18ch;text-wrap:balance;
+  text-shadow:0 2px 24px rgba(7,27,54,.45)}
+.vbanner p{color:rgba(255,255,255,.88);font-size:clamp(1rem,1.4vw,1.1rem);line-height:1.65;max-width:56ch;text-wrap:pretty}
+.vbanner .hero-acts{margin-top:10px}
 .big-play{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.14);
   border:2px solid rgba(255,255,255,.5);backdrop-filter:blur(6px);transition:.35s var(--ease);position:relative}
 .big-play::before{content:"";position:absolute;inset:-10px;border-radius:50%;border:2px solid rgba(255,99,0,.5);animation:ripple 2.4s ease-out infinite}
@@ -661,6 +668,8 @@ html.js .figure-stack .badge{animation:floaty 1.5s ease-in-out infinite}
   .hero-inner{justify-content:flex-end;padding-top:12px}
 }
 @media(max-width:620px){
+  .vbanner .hero-acts{width:100%;max-width:360px;flex-direction:column}
+  .vbanner .hero-acts .btn{justify-content:center}
   :root{--gutter:32px}
   .g2,.g3,.g4,.esg,.tiles,.tiles.tiles-2{grid-template-columns:1fr}
   .rail{grid-template-columns:repeat(2,minmax(0,1fr))}
